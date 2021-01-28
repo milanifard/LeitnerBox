@@ -1,9 +1,10 @@
 <?php
 // var_dump($_SESSION);
-if(isset($_SESSION['UserID'])){ //if login in session is not set
-    
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
-}
+include_once 'config/database.php';
+include_once 'model/box.php';
 ?>
 <body cz-shortcut-listen="true">
 
@@ -30,20 +31,31 @@ if(isset($_SESSION['UserID'])){ //if login in session is not set
 
 <main role="main" class="container">
 
-  <div class="starter-template">
-    <h1>جعبه:)))</h1>
-    <p class="lead">خوش اومدین قراره اینجا لیست  احداث بشه</p>
-  </div>
+<button type="button" class="btn btn-primary btn-lg">افزودن جعبه جدید</button>
+<ul class="list-group list-group-flush">
+    <?php
 
+
+    if(isset($_SESSION['UserID'])){ //if login in session is not set
+        
+        $db =  new Database();
+        $conn = $db->getConnection();
+
+        $box =  new Box($conn);
+        $user_boxes = $box->readByOwnerId(10 ,$_SESSION['UserID'] );
+        var_dump($user_boxes);
+
+    }
+    // <li class="list-group-item">Cras justo odio</li>
+    // <li class="list-group-item">Dapibus ac facilisis in</li>
+    // <li class="list-group-item">Morbi leo risus</li>
+    // <li class="list-group-item">Porta ac consectetur ac</li>
+    // <li class="list-group-item">Vestibulum at eros</li>
+    
+    ?>
+</ul>
 </main><!-- /.container -->
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-<script src="../../assets/js/vendor/popper.min.js"></script>
-<script src="../../dist/js/bootstrap.min.js"></script>
 
 
 </body>

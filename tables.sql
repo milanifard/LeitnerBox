@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `box`(
     id int AUTO_INCREMENT,
     title char(255),
     description_text TEXT,
-    user 
+    ownerId int,
     PRIMARY KEY(id)
 );
 
