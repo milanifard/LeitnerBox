@@ -30,32 +30,73 @@ include_once 'model/box.php';
 </nav>
 
 <main role="main" class="container">
-
-<button type="button" class="btn btn-primary btn-lg">افزودن جعبه جدید</button>
-<ul class="list-group list-group-flush">
-    <?php
-
+<form id="fbox" name="fbox" method="post">
+  <div class="form-group">
+    <label for="box-name" >نام جعبه</label>
+    <input type="text" class="form-control" id="box-name" name="box-name">
+  </div>
+  <div class="form-group">
+    <label for="box-description">توضیحات جعبه</label>
+    <textarea class="form-control" id="box-description" name="box-description" rows="3"></textarea>
+  </div>
+</form>
+<button type="button" name="create" onclick="submitForm()" class="btn btn-primary btn-lg">افزودن جعبه جدید</button>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">نام</th>
+      <th scope="col">توضیحات</th>
+    </tr>
+  </thead>
+  <?php
+    $db =  new Database();
+    $conn = $db->getConnection();
 
     if(isset($_SESSION['UserID'])){ //if login in session is not set
         
-        $db =  new Database();
-        $conn = $db->getConnection();
+
 
         $box =  new Box($conn);
-        $user_boxes = $box->readByOwnerId(10 ,$_SESSION['UserID'] );
-        var_dump($user_boxes);
+        $user_boxes = $box->readByOwnerId(10 ,$_SESSION['PersonID'] );
+        $i=1;
+        foreach ($user_boxes as $box_item) {
+            echo " <tr><th scope=\"row\">".$i."</th>
+            <td>".$box_item['title']."</td>
+            <td>".$box_item['description_text']."</td> </tr>";
+            $i++;
+        }
 
+        var_dump($_REQUEST);
+
+        if(isset($_REQUEST["box-name"])){
+
+            $box =  new Box($conn);
+            $box->ownerId = $_SESSION['PersonID'];
+            
+            $box->title = $_REQUEST["box-name"];
+            if(isset($_REQUEST["box-description"]))
+                $box->description_text = $_REQUEST["box-description"];
+            $box->create();
+
+
+        }
     }
-    // <li class="list-group-item">Cras justo odio</li>
-    // <li class="list-group-item">Dapibus ac facilisis in</li>
-    // <li class="list-group-item">Morbi leo risus</li>
-    // <li class="list-group-item">Porta ac consectetur ac</li>
-    // <li class="list-group-item">Vestibulum at eros</li>
-    
     ?>
+  </tbody>
+</table>
+
 </ul>
 </main><!-- /.container -->
 
 
+<script>
+function submitForm()
+{   
+    console.log("hello con");
+    document.fbox.submit();
 
+}
+</script>
 </body>
+

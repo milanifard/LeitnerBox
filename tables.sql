@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS `LeitnerBox`;
+CREATE DATABASE IF NOT EXISTS `LeitnerBox` char set utf8 collate utf8_persian_ci;
 
 use `LeitnerBox`;
 

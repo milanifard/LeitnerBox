@@ -22,13 +22,12 @@ class Box{
     
         $this->sanitize();
         $this->bind_values($stmt);
-       
+        echo "creating box\r\n";
         if($stmt->execute()){
             return true;
         }
-    
+        echo "creating box2\r\n";
         return false;
-        
     }
     function readByOwnerId($count ,$ownerId ){
  
@@ -42,7 +41,7 @@ class Box{
         // execute query
         $result = $stmt->execute();
      
-        return $result;
+        return  $stmt->fetchAll();
     }
 
     
