@@ -25,7 +25,10 @@ CREATE TABLE IF NOT EXISTS `card`(
     id int AUTO_INCREMENT,
     front_text TEXT,
     back_text TEXT,
-    audio_name CHAR(255),
+    front_image_name CHAR(255),
+    front_audio_name CHAR(255),
+    back_image_name CHAR(255),
+    back_audio_name CHAR(255),
     section_id int,
     PRIMARY KEY(id),
     FOREIGN KEY(`section_id`) REFERENCES `section`(id) ON DELETE CASCADE
