@@ -61,7 +61,7 @@ include_once 'model/box.php';
         $user_boxes = $box->readByOwnerId(10 ,$_SESSION['PersonID'] );
         $i=1;
         foreach ($user_boxes as $box_item) {
-            echo " <tr><th scope=\"row\">".$i."</th>
+            echo " <tr><th scope=\"row\">".$box_item['id']."</th>
             <td>".$box_item['title']."</td>
             <td>".$box_item['description_text']."</td> </tr>";
             $i++;
@@ -91,6 +91,23 @@ include_once 'model/box.php';
 
 
 <script>
+function addRowHandlers() {
+  var table = document.getElementById("tableId");
+  var rows = table.getElementsByTagName("tr");
+  for (i = 0; i < rows.length; i++) {
+    var currentRow = table.rows[i];
+    var createClickHandler = function(row) {
+      return function() {
+        var cell = row.getElementsByTagName("td")[0];
+        var id = cell.innerHTML;
+        alert("id:" + id);
+      };
+    };
+    currentRow.onclick = createClickHandler(currentRow);
+  }
+}
+
+
 function submitForm()
 {   
     console.log("hello con");

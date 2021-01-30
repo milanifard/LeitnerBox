@@ -6,7 +6,7 @@ class Box{
     public $title;
     public $ownerId;
     public $description_text;
-
+    public $id;
     public function __construct($db){
         $this->conn = $db;
     }
