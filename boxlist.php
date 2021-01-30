@@ -7,7 +7,11 @@ include_once 'config/database.php';
 include_once 'model/box.php';
 ?>
 <body cz-shortcut-listen="true">
-
+<style>
+  tr:hover {
+          background-color: #ffff99;
+        }
+</style>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
   <a class="navbar-brand" href="#">جعبه لایتنر</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,12 +45,13 @@ include_once 'model/box.php';
   </div>
 </form>
 <button type="button" name="create" onclick="submitForm()" class="btn btn-primary btn-lg">افزودن جعبه جدید</button>
-<table class="table">
+<table class="table" id="boxes-table" >
   <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">نام</th>
       <th scope="col">توضیحات</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <?php
@@ -63,7 +68,8 @@ include_once 'model/box.php';
         foreach ($user_boxes as $box_item) {
             echo " <tr><th scope=\"row\">".$box_item['id']."</th>
             <td>".$box_item['title']."</td>
-            <td>".$box_item['description_text']."</td> </tr>";
+            <td>".$box_item['description_text']."</td>
+            <td><button type=\"button\" class=\"btn btn-danger\">حذف</button></td> </tr>";
             $i++;
         }
 
@@ -92,18 +98,23 @@ include_once 'model/box.php';
 
 <script>
 function addRowHandlers() {
-  var table = document.getElementById("tableId");
+
+  var table = document.getElementById("boxes-table");
   var rows = table.getElementsByTagName("tr");
   for (i = 0; i < rows.length; i++) {
-    var currentRow = table.rows[i];
+    var currentRow = rows[i];
     var createClickHandler = function(row) {
       return function() {
-        var cell = row.getElementsByTagName("td")[0];
+        var cell = row.getElementsByTagName("th")[0];
         var id = cell.innerHTML;
-        alert("id:" + id);
+        window.location.href = "./box_view.php?box_id="+id
+        // alert("id:" + id);
+        
       };
     };
-    currentRow.onclick = createClickHandler(currentRow);
+    console.log(" i is "+i);
+    if(i != (rows.length-1))
+      currentRow.onclick = createClickHandler(currentRow);
   }
 }
 
@@ -114,6 +125,7 @@ function submitForm()
     document.fbox.submit();
 
 }
+addRowHandlers();
 </script>
 </body>
 
