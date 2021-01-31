@@ -44,6 +44,24 @@ class Box{
         return  $stmt->fetchAll();
     }
 
+    function deleteByID(){
+
+        $query = "DELETE FROM 
+                    " . $this->table_name . "
+                WHERE
+                id=". $this->id .";";
+    
+        $stmt = $this->conn->prepare($query);
+    
+
+        echo "removing box\r\n";
+        if($stmt->execute()){
+            return true;
+        }
+        echo "removing box2\r\n";
+        return false;
+    }
+
     
     function sanitize(){
         $this->title=htmlspecialchars(strip_tags($this->title));
