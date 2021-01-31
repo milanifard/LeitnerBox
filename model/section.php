@@ -1,5 +1,5 @@
 <?php
-class Box{
+class Section{
 
     private $conn;
     private $table_name = "section";
@@ -11,11 +11,31 @@ class Box{
         $this->conn = $db;
     }
 
-    function readByOwnerId($count ,$ownerId ){
+    function create(){
+    
+        $query = "INSERT INTO
+                    " . $this->table_name . "
+                SET
+                box_id=:box_id, prev_section=:prev_section , next_section=:next_section";
+    
+        $stmt = $this->conn->prepare($query);
+    
+        $this->sanitize();
+        $this->bind_values($stmt);
+        echo "creating section\r\n";
+        if($stmt->execute()){
+            return true;
+        }
+        echo "creating section\r\n";
+        return false;
+    }
+
+
+    function readByBoxId($count ,$boxId ){
  
         // select all query
         $query = "SELECT * FROM
-                `" . $this->table_name . "` as t where t.ownerId=".$ownerId." limit ".$count." ;";
+                `" . $this->table_name . "` as t where t.boxId=".$boxId." limit ".$count." ;";
      
         // prepare query statement
         $stmt = $this->conn->prepare($query);

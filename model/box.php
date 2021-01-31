@@ -24,6 +24,7 @@ class Box{
         $this->bind_values($stmt);
         echo "creating box\r\n";
         if($stmt->execute()){
+            
             return true;
         }
         echo "creating box2\r\n";
