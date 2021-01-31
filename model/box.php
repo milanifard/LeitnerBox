@@ -24,6 +24,7 @@ class Box{
         $this->bind_values($stmt);
         echo "creating box\r\n";
         if($stmt->execute()){
+            $this->id = $this->conn->lastInsertId();
             return true;
         }
         echo "creating box2\r\n";
@@ -42,6 +43,24 @@ class Box{
         $result = $stmt->execute();
      
         return  $stmt->fetchAll();
+    }
+
+    function deleteByID(){
+
+        $query = "DELETE FROM 
+                    " . $this->table_name . "
+                WHERE
+                id=". $this->id .";";
+    
+        $stmt = $this->conn->prepare($query);
+    
+
+        echo "removing box\r\n";
+        if($stmt->execute()){
+            return true;
+        }
+        echo "removing box2\r\n";
+        return false;
     }
 
     

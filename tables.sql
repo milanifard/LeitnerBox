@@ -7,7 +7,9 @@ CREATE TABLE IF NOT EXISTS `box`(
     title char(255),
     description_text TEXT,
     ownerId int,
-    PRIMARY KEY(id)
+    default_section int,
+    PRIMARY KEY(id),
+    FOREIGN KEY(`default_section`) REFERENCES `section`(id)
 );
 
 CREATE TABLE IF NOT EXISTS `section`(
