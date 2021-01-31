@@ -24,7 +24,7 @@ class Box{
         $this->bind_values($stmt);
         echo "creating box\r\n";
         if($stmt->execute()){
-            
+            $this->id = $this->conn->lastInsertId();
             return true;
         }
         echo "creating box2\r\n";

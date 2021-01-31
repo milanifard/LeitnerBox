@@ -16,14 +16,14 @@ class Section{
         $query = "INSERT INTO
                     " . $this->table_name . "
                 SET
-                box_id=:box_id, prev_section=:prev_section , next_section=:next_section";
+                box_id=".$this->box_id." ; ";
     
         $stmt = $this->conn->prepare($query);
     
-        $this->sanitize();
-        $this->bind_values($stmt);
+
         echo "creating section\r\n";
         if($stmt->execute()){
+            
             return true;
         }
         echo "creating section\r\n";
@@ -65,16 +65,7 @@ class Section{
     }
 
     
-    function sanitize(){
-        $this->box_id=htmlspecialchars(strip_tags($this->box_id));
-        $this->prev_section=htmlspecialchars(strip_tags($this->prev_section));
-        $this->next_section=htmlspecialchars(strip_tags($this->next_section));
-    }
 
-    function bind_values($stmt){
-        $stmt->bindParam(":box_id", $this->box_id);
-        $stmt->bindParam(":prev_section", $this->prev_section);
-        $stmt->bindParam(":next_section", $this->next_section);
-    }
+
 
 }
