@@ -1,0 +1,144 @@
+
+html {
+    background: #eee;
+    text-align: center;
+}
+
+
+
+
+
+.container-rsp {
+    width: 80%;
+    margin: auto;
+}
+@media only screen and (max-width: 700px) {
+    .container-rsp {
+        width: 90%;
+    }
+}
+@media only screen and (max-width: 450px) {
+    .container-rsp {
+        width: 99%;
+    }
+}
+
+
+
+.leitner-header {
+    font-size: 40px;
+}
+.little-text {
+    font-size: 25px;
+    color: #666;
+}
+@media only screen and (max-width: 600px) { 
+    .leitner-header {
+        font-size: 30px;
+    }
+    .little-text {
+        font-size: 16px;
+        color: #666;
+    }
+}
+
+
+hr {
+    border: 0.5px solid #999;
+    margin: 30px 0 30px 0;
+}
+
+.ltn-button {
+    margin-left: auto;
+    margin-right: auto;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(185, 8, 185);
+    color: white;
+    font-size: 25px;
+    min-height: 50px;
+    width: 90%;
+    border: 1px solid blue;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: 1s;
+    outline: 0;
+}
+.ltn-button:hover {
+    background: rgb(243, 114, 243);
+    color: black;
+    border: 1px solid white;
+    width: 50%;
+}
+
+
+.modal-wrapper {
+    /* display: none; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    top: 0;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgb(0,0,0, 0.2);
+    z-index: 100;
+}
+
+.create-card-modal {
+    /* display: none; */
+    position: relative;
+    background: white;
+    border: 2px solid blue;
+    border-radius: 10px;
+    width: 50%;
+    min-height: 400px;
+    z-index: 200;
+    padding-bottom: 20px;
+}
+@media only screen and (max-width: 1000px) {
+    .create-card-modal {
+        width: 70%;
+    }
+} 
+
+@media only screen and (max-width: 600px) {
+    .create-card-modal {
+        width: 95%;
+    }
+}
+
+.text-inp {
+    direction: rtl;
+    width: 80%;
+    margin: 30px 0 30px 0;
+    height: 25px;
+    font-size: 18px;
+    padding: 5px;
+}
+
+.file-input-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0 30px 0;
+}
+
+.close-modal-btn {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: rgb(255, 88, 82);
+    right: 0;
+    top: 0;
+    margin-top: -10px;
+    margin-right: -10px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.close-modal-btn:hover {
+    background: blue;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="leitner.css">
+    <title>لایتنر باکس</title>
+</head>
+<body>
+    <!-- <input required="required" class="text-inp" type="text" name="" id="" placeholder=""> -->
+    <!-- <div class="file-input-wrapper">
+        <input required="required" type="file"
+        id="" name=""
+        accept="image/*">
+        <span></span>
+    </div> -->
+    <div class="modal-wrapper">
+        <div class="create-card-modal">
+            <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
+            <h3>ساختن یک کارت جدید</h3>
+            <form action="" method="POST">
+                <input type="hidden" id="action" name="action" value="create_card">
+                
+                <input required="required" class="text-inp" type="text" name="front_text" id="front_text" placeholder="متن جلوی کارت">
+                <div class="file-input-wrapper">
+                    <input required="required" type="file"
+                    id="front_image" name="front_image"
+                    accept="image/*">
+                    <span>آپلود عکس جلوی کارت</span>
+                </div>
+                <div class="file-input-wrapper">
+                    <input required="required" type="file"
+                    id="front_audio" name="front_audio"
+                    accept="audio/*">
+                    <span>آپلود صدای جلوی کارت</span>
+                </div>
+                <input class="text-inp" type="text" name="back_text" id=back_text" placeholder="متن پشت کارت">
+                <div class="file-input-wrapper">
+                    <input required="required" type="file"
+                    id="back_image" name="back_image"
+                    accept="image/*">
+                    <span>آپلود عکس جلو</span>
+                </div>
+                <div class="file-input-wrapper">
+                    <input required="required" type="file"
+                    id="back_audio" name="back_audio"
+                    accept="audio/*">
+                    <span>آپلود صدای جلو</span>
+                </div>
+                <button class="ltn-button">ساختن</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container-rsp">
+        <div class="top-header">
+            <h1 class="leitner-header">
+                <span class="little-text">
+                    جعبه لایتنر
+                </span> اسم جعبه اینجاست</h1>
+        </div>
+        <hr>
+        <div class="create-section">
+            <form action="" method="POST">
+                <input type="hidden" id="action" name="action" value="create_section">
+                <button class="ltn-button">
+                    اضافه کردن بخش جدید به جعبه لایتنر
+                </button>
+            </form>
+        </div>
+        <hr>
+        <div class="create-cart">
+            <a href="" class="ltn-button" onclick="open_create_card_modal(event)">
+                اضافه کردن کارت جدید به جعبه لایتنر
+            </a>
+        </div>
+        <hr>
+        <div class="leitner-game">
+            
+        </div>
+    </div>
+
+
+    <script src="leitner.js"></script>
+</body>
+</html>
