@@ -15,6 +15,9 @@
         <span></span>
     </div> -->
     <div class="modal-wrapper">
+        <div class="card-modal create-card-modal">
+            
+        </div>
         <div class="create-card-modal">
             <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
             <h3>ساختن یک کارت جدید</h3>
@@ -39,13 +42,13 @@
                     <input required="required" type="file"
                     id="back_image" name="back_image"
                     accept="image/*">
-                    <span>آپلود عکس جلو</span>
+                    <span>آپلود عکس جلوی کارت</span>
                 </div>
                 <div class="file-input-wrapper">
                     <input required="required" type="file"
                     id="back_audio" name="back_audio"
                     accept="audio/*">
-                    <span>آپلود صدای جلو</span>
+                    <span>آپلود صدای جلوی کارت</span>
                 </div>
                 <button class="ltn-button">ساختن</button>
             </form>
@@ -76,7 +79,68 @@
         </div>
         <hr>
         <div class="leitner-game">
-            
+            <div class="leitner-section">
+                <h4>بخش شماره یک</h4>
+                <hr>
+                <div class="card-wrapper">
+                    <div class="card">
+                        <div class="top-pic">
+                            <img src="test_pic.jpeg" alt="alternative">
+                        </div>
+                        <div class="middle-audio">
+                            <audio controls>
+                                <source src="example_audio.mp3">
+                                Your browser does not support the audio tag.
+                              </audio>
+                        </div>
+                        <div class="bottom-text">
+                            این متن جلوی کارت است
+                        </div>
+                        <a href="" class="open-card-btn"
+                        onclick="open_card_modal(
+                            event,
+                            1,
+                            'متن جلوی کارت تستی',
+                            'test_pic.jpeg',
+                            'example_audio.mp3',
+                            'متن عقب کارت تستی',
+                            'test_pic.jpeg',
+                            'example_audio.mp3',
+                        )">
+                            باز کردن کارت
+                        </a>
+                    </div>
+                    <div class="card">
+                    </div>
+                    <div class="card">
+                    </div>
+                    <div class="card">
+                    </div>
+                </div>
+            </div>
+            <div class="leitner-section">
+                <h4>بخش شماره دوم</h4>
+                <hr>
+                <div class="card-wrapper">
+                    <div class="card">
+                        <div class="top-pic">
+                            <img src="test_pic.jpeg" alt="alternative">
+                        </div>
+                        <div class="middle-audio">
+
+                        </div>
+                        <div class="bottom-text">
+                            این متن جلوی کارت است
+                        </div>
+                    </div>
+                    <div class="card">
+                    </div>
+                    <div class="card">
+                    </div>
+                    <div class="card">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

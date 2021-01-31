@@ -75,8 +75,8 @@ hr {
 
 
 .modal-wrapper {
-    /* display: none; */
-    display: flex;
+    display: none;
+    /* display: flex; */
     align-items: center;
     justify-content: center;
     left: 0;
@@ -89,16 +89,21 @@ hr {
 }
 
 .create-card-modal {
-    /* display: none; */
+    display: none;
     position: relative;
     background: white;
     border: 2px solid blue;
     border-radius: 10px;
-    width: 50%;
+    width: 40%;
     min-height: 400px;
     z-index: 200;
     padding-bottom: 20px;
 }
+@media only screen and (max-width: 1200px) {
+    .create-card-modal {
+        width: 50%;
+    }
+} 
 @media only screen and (max-width: 1000px) {
     .create-card-modal {
         width: 70%;
@@ -141,4 +146,77 @@ hr {
 }
 .close-modal-btn:hover {
     background: blue;
+}
+
+.leitner-game {
+    margin-top: 30px;
+    padding-bottom: 30px;
+}
+
+.leitner-section {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    min-height: 200px;
+    /* background: blue; */
+    padding: 10px;
+    border: 0.5px solid white;
+}
+.leitner-game hr {
+    border: none;
+    border-top: 1px solid #999;
+}
+
+.card-wrapper {
+    /* display: block; */
+    overflow: hidden;
+    /* float: left; */
+    margin: 0 10px 10px 10px;
+}
+
+.card {
+    float: left;
+    margin: 5px 20px 20px 20px;
+    min-height: 300px;
+    width: 250px;
+    background: white;
+    position: relative;
+}
+
+.open-card-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(182, 5, 182);
+    position: absolute;
+    bottom: 0;
+    height: 30px;
+    color: white;
+    text-decoration: none;
+    transform: 1s;
+}
+.open-card-btn:hover {
+    background: rgb(129, 10, 144);
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+}
+.card audio {
+    width: 100%;
+    outline: none;
+}
+
+.card-modal img, audio {
+    width: 100%;
+    outline: 0;
+}
+
+.card-modal .card-text {
+    margin: 10px;
+    font-size: 20px;
 }
