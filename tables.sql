@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `box`(
     ownerId int,
     default_section int,
     PRIMARY KEY(id),
-    FOREIGN KEY(`default_section`) REFERENCES `section`(id)
+    FOREIGN KEY(`default_section`) REFERENCES `section`(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `section`(

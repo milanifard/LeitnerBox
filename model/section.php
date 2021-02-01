@@ -23,7 +23,7 @@ class Section{
 
         echo "creating section\r\n";
         if($stmt->execute()){
-            
+            $this->id = $this->conn->lastInsertId();
             return true;
         }
         echo "creating section\r\n";
@@ -65,6 +65,44 @@ class Section{
     }
 
     
+    function update(){
+    
+        $query = "UPDATE
+                    " . $this->table_name . "
+                SET
+                    box_id = :box_id,
+                    prev_section = :prev_section,
+                    next_section = :next_section,
+                WHERE
+                    id = :id";
+
+        $stmt = $this->conn->prepare($query);
+    
+        $this->sanitize();
+        $this->bind_values($stmt);
+    
+        if($stmt->execute()){
+           
+            return true;
+        }
+    
+        return false;
+    }
+
+        
+    function sanitize(){
+        $this->box_id=htmlspecialchars(strip_tags($this->box_id));
+        $this->prev_section=htmlspecialchars(strip_tags($this->prev_section));
+        $this->next_section=htmlspecialchars(strip_tags($this->next_section));
+        $this->box_id=htmlspecialchars(strip_tags($this->box_id));
+    }
+
+    function bind_values($stmt){
+        $stmt->bindParam(":box_id", $this->box_id);
+        $stmt->bindParam(":description_text", $this->description_text);
+        $stmt->bindParam(":next_section", $this->next_section);
+        $stmt->bindParam(":id", $this->id);
+    }
 
 
 

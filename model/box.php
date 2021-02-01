@@ -6,6 +6,7 @@ class Box{
     public $title;
     public $ownerId;
     public $description_text;
+    public $default_section;
     public $id;
     public function __construct($db){
         $this->conn = $db;
@@ -22,6 +23,7 @@ class Box{
     
         $this->sanitize();
         $this->bind_values($stmt);
+
         echo "creating box\r\n";
         if($stmt->execute()){
             $this->id = $this->conn->lastInsertId();
@@ -45,6 +47,35 @@ class Box{
         return  $stmt->fetchAll();
     }
 
+    function readById($id ){
+ 
+        $query = "SELECT * FROM `". $this->table_name ."` as b WHERE
+                b.id = '". $id ."'
+                ;";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->id);
+        
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        // var_dump($row );
+
+
+         
+        // set values to object properties
+        $this->id = $row['id'];
+        $this->title = $row['title'];
+        $this->description_text = $row['description_text'];
+        $this->ownerId = $row['ownerId'];
+        $this->default_section = $row['default_section'];
+
+
+        if( $stmt->rowCount() > 0){
+            return true;
+        }
+        return false;
+    }
+
     function deleteByID(){
 
         $query = "DELETE FROM 
@@ -63,17 +94,51 @@ class Box{
         return false;
     }
 
+    function update(){
+    
+        $query = "UPDATE
+                    " . $this->table_name . "
+                SET
+                    title = :title,
+                    ownerId = :ownerId,
+                    description_text = :description_text,
+                    default_section = :default_section
+                WHERE
+                    id = :id";
+
+        $stmt = $this->conn->prepare($query);
+    
+        $this->sanitize();
+        $stmt->bindParam(":title", $this->title );
+        $stmt->bindParam(":description_text", $this->description_text);
+        $stmt->bindParam(":ownerId", $this->ownerId);
+        $stmt->bindParam(":default_section", $this->default_section);
+        $stmt->bindParam(":id", $this->id );
+
+        if($stmt->execute()){
+            $stmt->debugDumpParams();
+            return true;
+        }
+    
+        return false;
+    }
+
     
     function sanitize(){
+        $this->id=htmlspecialchars(strip_tags($this->id));
         $this->title=htmlspecialchars(strip_tags($this->title));
         $this->description_text=htmlspecialchars(strip_tags($this->description_text));
         $this->ownerId=htmlspecialchars(strip_tags($this->ownerId));
+        $this->default_section=htmlspecialchars(strip_tags($this->default_section));
     }
 
     function bind_values($stmt){
-        $stmt->bindParam(":title", $this->title);
+        
+        $stmt->bindParam(":title", $this->title );
         $stmt->bindParam(":description_text", $this->description_text);
         $stmt->bindParam(":ownerId", $this->ownerId);
+        // $stmt->bindParam(":default_section", $this->default_section);
+        // $stmt->bindParam(":id", $this->id );
     }
 
 }
