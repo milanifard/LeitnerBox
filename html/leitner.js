@@ -42,7 +42,7 @@ var open_card_modal = (
         el.innerHTML = `
             <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
 
-            <img src="`+ front_image +`" alt="alternative">
+            <img onerror="this.onerror=null; this.src='placeholder.png'" src="`+ front_image +`" alt="alternative">
             <audio controls>
                 <source src="` + front_audio + `">
                 Your browser does not support the audio tag.
@@ -50,8 +50,8 @@ var open_card_modal = (
             <div class="card-text">
                 <p>` + front_text + `</p>
             </div>
-            <form action="" method="POST">
-                <input type="hidden" id="action" name="action" value="answer_card">
+            <form action="`+window.location.href+`" method="POST">
+                <input type="hidden" id="action" name="answer_card" value="answer_card">
                 <input type="hidden" id="card_id" name="card_id" value="` + id + `">
 
                 <input required="required" class="text-inp" type="text" name="answer" id="answer" placeholder="جواب را وارد کنید">
@@ -62,7 +62,7 @@ var open_card_modal = (
         el.innerHTML = `
             <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
 
-            <img src="`+ back_image +`" alt="alternative">
+            <img onerror="this.onerror=null; this.src='placeholder.png'" src="`+ back_image +`" alt="alternative">
             <audio controls>
                 <source src="` + back_audio + `">
                 Your browser does not support the audio tag.

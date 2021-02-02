@@ -49,6 +49,37 @@ class Card{
         return false;
     }
 
+    function readById($id ){
+ 
+        $query = "SELECT * FROM `". $this->table_name ."` as c WHERE
+                c.id = '". $id ."'
+                ;";
+        
+        $stmt = $this->conn->prepare($query);
+        
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        var_dump($row );
+
+
+         
+        // set values to object properties
+        $this->id = $row['id'];
+        $this->section_id = $row['section_id'];
+        $this->front_text = $row['front_text'];
+        $this->back_text = $row['back_text'];
+        $this->front_image_name = $row['front_image_name'];
+        $this->front_audio_name = $row['front_audio_name'];
+        $this->back_image_name = $row['back_image_name'];
+        $this->back_audio_name = $row['back_audio_name'];
+
+
+        if( $stmt->rowCount() > 0){
+            return true;
+        }
+        return false;
+    }
+
 
     function readBySectionId($count ,$section_id ){
  

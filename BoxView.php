@@ -9,7 +9,6 @@
     <base href="../../LeitnerBox/" target="_blank">
     <link rel="stylesheet" href="html/leitner.css">
     <?php
-
     include_once 'header.inc.php';
 
     ?>
@@ -58,34 +57,56 @@
                     $section->deleteByID();
                     // echo "<script>window.location.href = 'LeitnerBox.php';</script>";
                 } else if (isset($_REQUEST["create_card"])) {
+
+
                     echo "\n FILEs:";
                     var_dump($_FILES);
                     $card =  new card($conn);
                     $card->section_id = $box->default_section;
                     $card->front_text = $_REQUEST["front_text"];
                     $card->back_text = $_REQUEST["back_text"];
-                    $date_str = date("D_M_d,Y_G:i");
-                    if (isset($_FILES["front_image"])) {
-                        $file_name = $_SESSION['UserID'] . "_img_".$date_str."_".$_FILES['front_image']['name'];
+
+                    $date_str = date("d-m-Y_G_i");
+                    if (isset($_FILES["front_image"]) && $_FILES['front_image']['name'] != '') {
+                        $file_name = $_SESSION['UserID'] . "_frontimg_".$date_str."_".$_FILES['front_image']['name'];
                         move_uploaded_file($_FILES['front_image']['tmp_name'] , BASE_PATH."user_files/images/".$file_name);
+                        $card->front_image_name = $file_name;
                     }
-                    if (isset($_FILES["back_image"])) {
-                        
+                    if (isset($_FILES["back_image"])  && $_FILES['back_image']['name'] != '') {
+                        $file_name = $_SESSION['UserID'] . "_backimg_".$date_str."_".$_FILES['back_image']['name'];
+                        move_uploaded_file($_FILES['back_image']['tmp_name'] , BASE_PATH."user_files/images/".$file_name);
+                        $card->back_image_name = $file_name;
                     }
 
-                    if (isset($_FILES["front_audio"])) {
+                    if (isset($_FILES["front_audio"]) && $_FILES['front_audio']['name'] != '') {
+                        $file_name = $_SESSION['UserID'] . "_frontaudio_".$date_str."_".$_FILES['front_audio']['name'];
+                        echo "\n front audio : ";
+                        var_dump($file_name);
+                        move_uploaded_file($_FILES['front_audio']['tmp_name'] , BASE_PATH."user_files/audios/".$file_name);
+                        $card->front_audio_name = $file_name;
                     }
-                    if (isset($_FILES["back_audio"])) {
+                    if (isset($_FILES["back_audio"]) && $_FILES['back_audio']['name'] != '' ) {
+                        $file_name = $_SESSION['UserID'] . "_backaudio_".$date_str."_".$_FILES['back_audio']['name'];
+                        echo "\n back audio : ";
+                        var_dump($file_name);
+                        move_uploaded_file($_FILES['back_audio']['tmp_name'] , BASE_PATH."user_files/audios/".$file_name);
+                        $card->back_audio_name = $file_name;
                     }
-                    // $card->create();
+                    $card->create();
+                }else if(isset($_REQUEST["answer_card"])){ 
+
+                    $card =  new card($conn);
+                    $card->readById($_REQUEST["card_id"]);
+                    if($card->back_text == $_REQUEST["answer"]){
+                        echo "your answer is true";
+                    }else{
+                        echo "your answer is NOT true";
+                    }
                 }
 
 
                 die();
             } else {
-
-
-
 
 
                 $section = new Section($conn);
@@ -142,14 +163,14 @@
                         <input type="file" id="front_audio" name="front_audio" accept="audio/*">
                         <span>آپلود صدای جلوی کارت</span>
                     </div>
-                    <input required class="text-inp form-control" type="text" name="back_text" id=back_text" placeholder="متن پشت کارت">
+                    <input required class="text-inp form-control" type="text" name="back_text" id="back_text" placeholder="متن پشت کارت">
                     <div class="file-input-wrapper">
                         <input type="file" id="back_image" name="back_image" accept="image/*">
-                        <span>آپلود عکس جلوی کارت</span>
+                        <span>آپلود عکس پشت کارت</span>
                     </div>
                     <div class="file-input-wrapper">
                         <input type="file" id="back_audio" name="back_audio" accept="audio/*">
-                        <span>آپلود صدای جلوی کارت</span>
+                        <span>آپلود صدای پشت کارت</span>
                     </div>
                     <button class="ltn-button">ساختن</button>
                 </form>
@@ -206,7 +227,7 @@
                         // var_dump($current_card);
                         echo '<div class="card">';
                         echo '<div class="top-pic">';
-                        echo '<img src="html/'.$current_card['front_image_name'] . '" alt="alternative">';
+                        echo '<img onerror="this.onerror=null; this.src=\'placeholder.png\'" src="user_files/images/'.$current_card['front_image_name'] . '" alt="alternative">';
                         echo '</div>';
                         echo '<div class="middle-audio">';
                         echo '</div>';
@@ -217,30 +238,18 @@
                             event,
                             1,
                             '". $current_card['front_text'] ."',
-                            '". $current_card['front_image_name'] ."',
-                            '". $current_card['front_audio_name'] ."',
+                            'user_files/images/". $current_card['front_image_name'] ."',
+                            'user_files/audios/". $current_card['front_audio_name'] ."',
                             '". $current_card['back_text'] ."',
-                            '". $current_card['front_image_name'] ."',
-                            '". $current_card['back_image_name'] ."',
+                            'user_files/images/". $current_card['front_image_name'] ."',
+                            'user_files/audios/". $current_card['back_image_name'] ."',
                         )\">
                             باز کردن کارت
                         </a>";
 
                         echo '</div>';
                     }
-                    // echo "<a  class=\"open-card-btn\"
-                    // onclick=\"open_card_modal(
-                    //     event,
-                    //     1,
-                    //     'متن جلوی کارت تستی',
-                    //     'test_pic.jpeg',
-                    //     'example_audio.mp3',
-                    //     'متن عقب کارت تستی',
-                    //     'test_pic.jpeg',
-                    //     'example_audio.mp3',
-                    // )\">
-                    //     باز کردن کارت
-                    // </a>";
+
                     
                     echo '</div>';
                     echo '</div>';
