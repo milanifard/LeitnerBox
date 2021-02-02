@@ -101,11 +101,9 @@ include_once 'section.php';
 
 
                         $box->default_section = $section->id;
-                        var_dump($section);
-                        echo "before update : ";
-                        var_dump($box);
+                        // var_dump($section);
+                        // var_dump($box);
                         $box->update();
-                        echo "after update : ";
 
                         var_dump($box);
 

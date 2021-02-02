@@ -31,11 +31,11 @@ class Section{
     }
 
 
-    function readByBoxId($count ,$boxId ){
+    function readByBoxId($count ,$box_id ){
  
         // select all query
         $query = "SELECT * FROM
-                `" . $this->table_name . "` as t where t.boxId=".$boxId." limit ".$count." ;";
+                `" . $this->table_name . "` as t where t.box_id=".$box_id." limit ".$count." ;";
      
         // prepare query statement
         $stmt = $this->conn->prepare($query);

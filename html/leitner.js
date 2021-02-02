@@ -1,6 +1,6 @@
 var wrapper_modal_name = '.modal-wrapper'
-var create_card_modal_name = '.create-card-modal'
-var card_modal_name = '.card-modal'
+var create_card_modal_name = '#create-card-modal'
+var card_modal_name = '#card-view'
 
 var close_all_modals = (event, out_click=false) => {
     event.preventDefault()
@@ -9,16 +9,18 @@ var close_all_modals = (event, out_click=false) => {
                 return
     change_element_display(get_element(wrapper_modal_name), 'none')
     change_element_display(get_element(create_card_modal_name), 'none')
+    change_element_display(get_element(card_modal_name), 'none')
 }
 
 var get_element = (name) => document.querySelector(name)
 var change_element_display = (element, status) => element.style.display = status
 
 var open_create_card_modal = (event) => {
-    event.preventDefault()
-
-    change_element_display(get_element(wrapper_modal_name), 'flex')
-    change_element_display(get_element(create_card_modal_name), 'block')
+    event.preventDefault();
+    
+    change_element_display(get_element(wrapper_modal_name), 'flex');
+    change_element_display(get_element(create_card_modal_name), 'block');
+    change_element_display(get_element(card_modal_name), 'none');
 }
 
 var open_card_modal = (
