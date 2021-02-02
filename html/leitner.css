@@ -119,11 +119,11 @@ hr {
 
 .text-inp {
     direction: rtl;
-    width: 80%;
+    width: 100%;
     margin: 30px 0 30px 0;
-    height: 25px;
     font-size: 18px;
-    padding: 5px;
+    line-height: 28px;
+    padding: 10px;
 }
 
 .file-input-wrapper {
