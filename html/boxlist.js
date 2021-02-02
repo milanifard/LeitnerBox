@@ -26,28 +26,7 @@ function addRowHandlers() {
     }
 }
 
-function addRemoveHandlers() {
 
-    var table = document.getElementById("boxes-table");
-    var rows = table.getElementsByTagName("tr");
-    for (i = 0; i < rows.length; i++) {
-        var currentRow = rows[i];
-        var headerCell = currentRow.getElementsByTagName("th")[0];
-        var box_id = headerCell.innerHTML;
-        var currentBtn = buttons[i];
-        function createRemoveBoxHandle(btn , box_id) {
-            return function(){
-                console.log("clicked remove!");
-            }
-            
-        }
-
-        
-        
-        currentBtn.onclick = createRemoveBoxHandle(currentBtn , box_id);
-
-    }
-}
 
 function submitForm() {
     console.log("hello con");
@@ -55,5 +34,5 @@ function submitForm() {
 
 }
 
-// addRemoveHandlers();
+
 addRowHandlers();

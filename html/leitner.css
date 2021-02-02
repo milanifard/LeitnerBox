@@ -221,3 +221,17 @@ hr {
     margin: 10px;
     font-size: 20px;
 }
+.section-header{
+    overflow: auto;
+    display: block;
+}
+.section-header h4{
+    float:right;
+
+
+}
+.section-header button{
+    float:left;
+
+
+}
