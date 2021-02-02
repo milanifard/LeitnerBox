@@ -1,2 +1,6 @@
 1- First install sadaf framework (github.com/milanifard/sadaf)
-
+2- Rename sadaf's wwww to sadaf
+3- Import tables.sql
+4- Copy BoxView.php and  LeitnerBox.php to sadaf/sadaf/ folder (the same folder as main.php)
+5- Add BoxView.php and  LeitnerBox.php to sadaf pages and give user access
+6- Enjoy
