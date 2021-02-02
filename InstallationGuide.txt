@@ -4,4 +4,5 @@
 4- Import tables.sql
 5- Copy BoxView.php and  LeitnerBox.php to sadaf/sadaf/ folder (the same folder as main.php)
 6- Add BoxView.php and  LeitnerBox.php to sadaf pages and give user access
-7- Enjoy
+7- Edit htaccess and add model and config like this: ;C:\wamp64\www\LeitnerBox\config;C:\wamp64\www\LeitnerBox\model
+8- Enjoy

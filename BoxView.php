@@ -20,9 +20,12 @@
     <?php
 
     error_reporting(E_ALL);
+    define('BASE_PATH', '../../LeitnerBox/');
     ini_set('display_errors', '1');
-
-
+    ini_set("file_uploads","On");
+    ini_set('post_max_size', '4M');
+    ini_set('upload_max_filesize', '8M');
+    
     include_once 'database.php';
     include_once 'box.php';
     include_once 'section.php';
@@ -39,8 +42,9 @@
             $box->readById($_REQUEST['box_id']);
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+                echo "\n POST:";
                 var_dump($_POST);
+                
                 if (isset($_REQUEST["create_section"])) {
                     $section =  new Section($conn);
                     $section->box_id = $box->id;
@@ -54,21 +58,26 @@
                     $section->deleteByID();
                     // echo "<script>window.location.href = 'LeitnerBox.php';</script>";
                 } else if (isset($_REQUEST["create_card"])) {
-
+                    echo "\n FILEs:";
+                    var_dump($_FILES);
                     $card =  new card($conn);
                     $card->section_id = $box->default_section;
                     $card->front_text = $_REQUEST["front_text"];
                     $card->back_text = $_REQUEST["back_text"];
+                    $date_str = date("D_M_d,Y_G:i");
+                    if (isset($_FILES["front_image"])) {
+                        $file_name = $_SESSION['UserID'] . "_img_".$date_str."_".$_FILES['front_image']['name'];
+                        move_uploaded_file($_FILES['front_image']['tmp_name'] , BASE_PATH."user_files/images/".$file_name);
+                    }
+                    if (isset($_FILES["back_image"])) {
+                        
+                    }
 
-                    if (isset($_REQUEST["back_image"])) {
+                    if (isset($_FILES["front_audio"])) {
                     }
-                    if (isset($_REQUEST["front_image"])) {
+                    if (isset($_FILES["back_audio"])) {
                     }
-                    if (isset($_REQUEST["front_audio"])) {
-                    }
-                    if (isset($_REQUEST["back_audio"])) {
-                    }
-                    $card->create();
+                    // $card->create();
                 }
 
 
@@ -121,7 +130,7 @@
             <div class="create-card-modal" id="create-card-modal">
                 <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
                 <h3>ساختن یک کارت جدید</h3>
-                <form action=<?php echo ($_SERVER['REQUEST_URI']); ?> method="POST">
+                <form action=<?php echo ($_SERVER['REQUEST_URI']); ?> method="POST" enctype="multipart/form-data">
                     <input type="hidden" id="create-card-action" name="create_card" value="create_card">
 
                     <input required class="text-inp form-control" type="text" name="front_text" id="front_text" placeholder="متن جلوی کارت">
@@ -194,7 +203,7 @@
 
 
                     foreach ($section_cards as $current_card) {
-                        var_dump($current_card);
+                        // var_dump($current_card);
                         echo '<div class="card">';
                         echo '<div class="top-pic">';
                         echo '<img src="html/'.$current_card['front_image_name'] . '" alt="alternative">';
@@ -233,10 +242,6 @@
                     //     باز کردن کارت
                     // </a>";
                     
-                    echo '<div class="card"></div>';
-                    echo '<div class="card"></div>';
-                    echo '<div class="card"></div>';
-
                     echo '</div>';
                     echo '</div>';
                     $k++;
