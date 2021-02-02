@@ -5,3 +5,7 @@
 www/.htaccess
 shares/MySql.config.php
 shares/config.class.php
+
+
+user_files/images/*
+user_files/audio/*

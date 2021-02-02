@@ -99,8 +99,19 @@
                     $card->readById($_REQUEST["card_id"]);
                     if($card->back_text == $_REQUEST["answer"]){
                         echo "your answer is true";
+                        echo "<script>open_card_modal(
+                            event,
+                            1,
+                            '',
+                            'user_files/images/". $card->front_image_name ."',
+                            'user_files/audios/". $card->front_audio_name ."',
+                            '". $card->back_text ."',
+                            'user_files/images/". $card->front_image_name ."',
+                            'user_files/audios/". $card->back_image_name ."',
+                        ) </script>";
                     }else{
                         echo "your answer is NOT true";
+
                     }
                 }
 
@@ -224,7 +235,6 @@
 
 
                     foreach ($section_cards as $current_card) {
-                        // var_dump($current_card);
                         echo '<div class="card">';
                         echo '<div class="top-pic">';
                         echo '<img onerror="this.onerror=null; this.src=\'placeholder.png\'" src="user_files/images/'.$current_card['front_image_name'] . '" alt="alternative">';
@@ -232,7 +242,7 @@
                         echo '<div class="middle-audio">';
                         echo '</div>';
                         echo '<div class="bottom-text">'. $current_card['front_text'] .'</div>';
-                        // var_dump($current_card);
+
                         echo "<a  class=\"open-card-btn\"
                         onclick=\"open_card_modal(
                             event,
@@ -241,8 +251,8 @@
                             'user_files/images/". $current_card['front_image_name'] ."',
                             'user_files/audios/". $current_card['front_audio_name'] ."',
                             '". $current_card['back_text'] ."',
-                            'user_files/images/". $current_card['front_image_name'] ."',
-                            'user_files/audios/". $current_card['back_image_name'] ."',
+                            'user_files/images/". $current_card['back_image_name'] ."',
+                            'user_files/audios/". $current_card['back_audio_name'] ."',
                         )\">
                             باز کردن کارت
                         </a>";

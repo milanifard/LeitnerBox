@@ -1,4 +1,3 @@
-
 html {
     background: #eee;
     text-align: center;
@@ -12,11 +11,13 @@ html {
     width: 80%;
     margin: auto;
 }
+
 @media only screen and (max-width: 700px) {
     .container-rsp {
         width: 90%;
     }
 }
+
 @media only screen and (max-width: 450px) {
     .container-rsp {
         width: 99%;
@@ -28,14 +29,17 @@ html {
 .leitner-header {
     font-size: 40px;
 }
+
 .little-text {
     font-size: 25px;
     color: #666;
 }
-@media only screen and (max-width: 600px) { 
+
+@media only screen and (max-width: 600px) {
     .leitner-header {
         font-size: 30px;
     }
+
     .little-text {
         font-size: 16px;
         color: #666;
@@ -66,6 +70,7 @@ hr {
     transition: 1s;
     outline: 0;
 }
+
 .ltn-button:hover {
     background: rgb(243, 114, 243);
     color: black;
@@ -84,7 +89,7 @@ hr {
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background: rgb(0,0,0, 0.2);
+    background: rgb(0, 0, 0, 0.2);
     z-index: 100;
 }
 
@@ -98,18 +103,20 @@ hr {
     min-height: 400px;
     z-index: 200;
     padding: 30px !important;
-    
+
 }
+
 @media only screen and (max-width: 1200px) {
     .create-card-modal {
         width: 50%;
     }
-} 
+}
+
 @media only screen and (max-width: 1000px) {
     .create-card-modal {
         width: 70%;
     }
-} 
+}
 
 @media only screen and (max-width: 600px) {
     .create-card-modal {
@@ -145,6 +152,7 @@ hr {
     border-radius: 50%;
     cursor: pointer;
 }
+
 .close-modal-btn:hover {
     background: blue;
 }
@@ -165,6 +173,7 @@ hr {
     padding: 10px;
     border: 0.5px solid white;
 }
+
 .leitner-game hr {
     border: none;
     border-top: 1px solid #999;
@@ -199,6 +208,7 @@ hr {
     text-decoration: none;
     transform: 1s;
 }
+
 .open-card-btn:hover {
     background: rgb(129, 10, 144);
 }
@@ -207,12 +217,14 @@ hr {
     width: 100%;
     height: auto;
 }
+
 .card audio {
     width: 100%;
     outline: none;
 }
 
-.card-modal img, audio {
+.card-modal img,
+audio {
     width: 100%;
     outline: 0;
 }
@@ -221,17 +233,69 @@ hr {
     margin: 10px;
     font-size: 20px;
 }
-.section-header{
+
+.section-header {
     overflow: auto;
     display: block;
 }
-.section-header h4{
-    float:right;
+
+.section-header h4 {
+    float: right;
 
 
 }
-.section-header button{
-    float:left;
+
+.section-header button {
+    float: left;
 
 
+}
+
+.flip-card {
+    /* overflow: auto; */
+    height: 100%;
+    width: 100%;
+    background-color: inherit;
+    border: 1px solid #f1f1f1;
+    perspective: 1000px;
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+
+
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flipp {
+    transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    -webkit-backface-visibility: hidden;
+    /* Safari */
+    backface-visibility: hidden;
+}
+
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+    background-color: #bbb;
+    color: black;
+}
+
+/* Style the back side */
+.flip-card-back {
+    background-color: dodgerblue;
+    color: white;
+    transform: rotateY(180deg);
 }
