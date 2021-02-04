@@ -110,7 +110,7 @@ class Box{
                     description_text = :description_text,
                     default_section = :default_section
                 WHERE
-                    id = :id";
+                    id = :id; ";
 
         $stmt = $this->conn->prepare($query);
     

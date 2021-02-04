@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>جعبه لایتنر</title>
     <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.0.0/css/bootstrap.min.css" integrity="sha384-P4uhUIGk/q1gaD/NdgkBIl3a6QywJjlsFJFk7SPRdruoGddvRVSwv5qFnvZ73cpz" crossorigin="anonymous">
-    <base href="../../LeitnerBox/" target="_blank">
+    <base href="../../LeitnerBox/" >
     <link rel="stylesheet" href="html/leitner.css">
     <?php
     include_once 'header.inc.php';
@@ -47,7 +47,26 @@
                 if (isset($_REQUEST["create_section"])) {
                     $section =  new Section($conn);
                     $section->box_id = $box->id;
+
+                    $existing_sections = $section->readByBoxId(100, $_REQUEST['box_id']);
+                    echo "\n existing sections  : ";
+                    var_dump($existing_sections);
+                    
+
+                    $previous_section = new Section($conn);
+                    $previous_section->id =  end($existing_sections)['id'];
+                    
+                    $previous_section->readById();
+                    
+                    $section->prev_section = $previous_section->id;
+                    
                     $section->create();
+                    $previous_section->next_section = $section->id;
+                    echo "\n prev section : ";
+                    var_dump($previous_section);
+                    $previous_section->update();
+
+
                     echo '\ncreated section : ';
                     var_dump($section);
                 } else if (isset($_REQUEST['remove_section_id'])) //if login in session is not set
@@ -55,7 +74,8 @@
                     $section =  new Section($conn);
                     $section->id = $_REQUEST['remove_section_id'];
                     $section->deleteByID();
-                    // echo "<script>window.location.href = 'LeitnerBox.php';</script>";
+                    header( "Location: {$_SERVER['REQUEST_URI']}", true, 303 );
+                    exit();
                 } else if (isset($_REQUEST["create_card"])) {
 
 

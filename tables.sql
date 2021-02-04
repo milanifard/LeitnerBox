@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS `section`(
     created_at DATETIME,
     PRIMARY KEY(id),
     FOREIGN KEY(`box_id`) REFERENCES `box`(id) ON DELETE CASCADE,
-    FOREIGN KEY(`prev_section`) REFERENCES `section`(id),
-    FOREIGN KEY(`prev_section`) REFERENCES `section`(id)
+    FOREIGN KEY(`prev_section`) REFERENCES `section`(id) ON DELETE SET NULL,
+    FOREIGN KEY(`next_section`) REFERENCES `section`(id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS `card`(

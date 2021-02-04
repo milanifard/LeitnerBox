@@ -134,7 +134,7 @@ class Card{
                     back_image_name = :back_image_name,
                     back_audio_name = :back_audio_name,
                 WHERE
-                    id = :id";
+                    id = :id ;";
 
         $stmt = $this->conn->prepare($query);
     

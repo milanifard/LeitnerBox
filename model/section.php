@@ -4,8 +4,8 @@ class Section{
     private $conn;
     private $table_name = "section";
     public $box_id;
-    public $prev_section;
-    public $next_section;
+    public $prev_section  = 0;
+    public $next_section = 0;
     public $id;
     public $created_at;
     
@@ -18,11 +18,19 @@ class Section{
         $query = "INSERT INTO
                     " . $this->table_name . "
                 SET
-                box_id=".$this->box_id.", created_at=:created_at ; ";
+                box_id = :box_id,
+                prev_section = :prev_section,
+                next_section = :next_section,
+                created_at = :created_at; ";
     
         $stmt = $this->conn->prepare($query);
+
+        $this->sanitize();
         $this->created_at = date("Y-m-d G:i:s");
         $stmt->bindParam(":created_at",$this->created_at );
+        $stmt->bindParam(":box_id", $this->box_id);
+        $stmt->bindParam(":prev_section", $this->prev_section);
+        $stmt->bindParam(":next_section", $this->next_section);
 
         echo "creating section\r\n";
         if($stmt->execute()){
@@ -38,7 +46,7 @@ class Section{
  
         // select all query
         $query = "SELECT * FROM
-                `" . $this->table_name . "` as t where t.box_id=".$box_id." limit ".$count." ;";
+                `" . $this->table_name . "` as t where t.box_id=".$box_id."  ORDER BY created_at ASC limit ".$count.";";
      
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -47,6 +55,37 @@ class Section{
         $result = $stmt->execute();
      
         return  $stmt->fetchAll();
+    }
+
+    function readById( ){
+ 
+        $query = "SELECT * FROM `". $this->table_name ."` as b WHERE
+                b.id = :id 
+                ;";
+        
+        $stmt = $this->conn->prepare($query);
+        
+
+        $this->sanitize();
+        $stmt->bindParam('id', $this->id);
+        
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+        echo "\n fetched row : " ;
+        var_dump($row);
+        // set values to object properties
+        $this->id = $row['id'];
+        $this->box_id = $row['box_id'];
+        $this->prev_section = (!$row['prev_section']) ? 0 : $row['prev_section'];
+        $this->next_section = (!$row['next_section'] ) ? 0 : $row['next_section'];
+
+
+        if( $stmt->rowCount() > 0){
+            return true;
+        }
+        return false;
     }
 
     function deleteByID(){
@@ -59,11 +98,10 @@ class Section{
         $stmt = $this->conn->prepare($query);
     
 
-        echo "removing section\r\n";
         if($stmt->execute()){
             return true;
         }
-        echo "removing section\r\n";
+
         return false;
     }
 
@@ -75,17 +113,16 @@ class Section{
                 SET
                     box_id = :box_id,
                     prev_section = :prev_section,
-                    next_section = :next_section,
+                    next_section = :next_section
                 WHERE
-                    id = :id";
+                    id = :id ;";
 
         $stmt = $this->conn->prepare($query);
     
         $this->sanitize();
         $this->bind_values($stmt);
     
-        if($stmt->execute()){
-           
+        if($stmt->execute()){ 
             return true;
         }
     
@@ -97,12 +134,12 @@ class Section{
         $this->box_id=htmlspecialchars(strip_tags($this->box_id));
         $this->prev_section=htmlspecialchars(strip_tags($this->prev_section));
         $this->next_section=htmlspecialchars(strip_tags($this->next_section));
-        $this->box_id=htmlspecialchars(strip_tags($this->box_id));
+        $this->id=htmlspecialchars(strip_tags($this->id));
     }
 
     function bind_values($stmt){
         $stmt->bindParam(":box_id", $this->box_id);
-        $stmt->bindParam(":description_text", $this->description_text);
+        $stmt->bindParam(":prev_section", $this->prev_section);
         $stmt->bindParam(":next_section", $this->next_section);
         $stmt->bindParam(":id", $this->id);
     }
