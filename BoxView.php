@@ -17,6 +17,20 @@
 
 <body>
     <?php
+    function wh_log($log_msg)
+    {
+        $log_filename = "log";
+        if (!file_exists($log_filename)) 
+        {
+            // create directory/folder uploads.
+            mkdir($log_filename, 0777, true);
+        }
+        $log_file_data = $log_filename.'/letnerlog' . date('d-M-Y') . '.log';
+        // if you don't add `FILE_APPEND`, the file will be erased each time you add a log
+        file_put_contents($log_file_data, date('Y_m_d_G_i'). var_export($log_msg, true) ."\n", FILE_APPEND);
+    } 
+
+
     date_default_timezone_set('Asia/Tehran');
     error_reporting(E_ALL);
     define('BASE_PATH', '../../LeitnerBox/');
@@ -41,16 +55,16 @@
             $box->readById($_REQUEST['box_id']);
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                echo "\n POST:";
-                var_dump($_POST);
+                wh_log(" POST:") ;
+                wh_log($_POST) ;
                 
                 if (isset($_REQUEST["create_section"])) {
                     $section =  new Section($conn);
                     $section->box_id = $box->id;
 
                     $existing_sections = $section->readByBoxId(100, $_REQUEST['box_id']);
-                    echo "\n existing sections  : ";
-                    var_dump($existing_sections);
+                    wh_log("\n existing sections  : ");
+                    wh_log($existing_sections);
                     
 
                     $previous_section = new Section($conn);
@@ -62,25 +76,23 @@
                     
                     $section->create();
                     $previous_section->next_section = $section->id;
-                    echo "\n prev section : ";
-                    var_dump($previous_section);
+                    wh_log("\n prev section : ");
+                    wh_log($previous_section);
                     $previous_section->update();
 
-
-                    echo '\ncreated section : ';
-                    var_dump($section);
+                    wh_log("\n ncreated section : ");
+                    wh_log($section);
                 } else if (isset($_REQUEST['remove_section_id'])) //if login in session is not set
                 {
                     $section =  new Section($conn);
                     $section->id = $_REQUEST['remove_section_id'];
                     $section->deleteByID();
-                    header( "Location: {$_SERVER['REQUEST_URI']}", true, 303 );
-                    exit();
+                    
                 } else if (isset($_REQUEST["create_card"])) {
 
 
-                    echo "\n FILEs:";
-                    var_dump($_FILES);
+                    wh_log( "FILEs:");
+                    wh_log($_FILES);
                     $card =  new card($conn);
                     $card->section_id = $box->default_section;
                     $card->front_text = $_REQUEST["front_text"];
@@ -101,14 +113,14 @@
                     if (isset($_FILES["front_audio"]) && $_FILES['front_audio']['name'] != '') {
                         $file_name = $_SESSION['UserID'] . "_frontaudio_".$date_str."_".$_FILES['front_audio']['name'];
                         echo "\n front audio : ";
-                        var_dump($file_name);
+                        wh_log($file_name);
                         move_uploaded_file($_FILES['front_audio']['tmp_name'] , BASE_PATH."user_files/audios/".$file_name);
                         $card->front_audio_name = $file_name;
                     }
                     if (isset($_FILES["back_audio"]) && $_FILES['back_audio']['name'] != '' ) {
                         $file_name = $_SESSION['UserID'] . "_backaudio_".$date_str."_".$_FILES['back_audio']['name'];
                         echo "\n back audio : ";
-                        var_dump($file_name);
+                        wh_log($file_name);
                         move_uploaded_file($_FILES['back_audio']['tmp_name'] , BASE_PATH."user_files/audios/".$file_name);
                         $card->back_audio_name = $file_name;
                     }
@@ -135,19 +147,14 @@
                     }
                 }
 
-
+                echo "<script>window.location.href = window.location.href;</script>";
                 die();
             } else {
 
 
                 $section = new Section($conn);
-                // var_dump($box);
                 $box_sections = $section->readByBoxId(100, $_REQUEST['box_id']);
 
-
-                foreach ($box_sections as $current_section) {
-                    var_dump($current_section);
-                }
             }
         } else {
             die();
@@ -240,7 +247,6 @@
                 <?php
                 $k = 1;
                 foreach ($box_sections as $current_section) {
-                    // var_dump($current_section);
                     echo '<div class="leitner-section">';
                     echo '<div class="section-header">';
                     echo '<h4 >بخش شماره ' . $k . '</h4>';

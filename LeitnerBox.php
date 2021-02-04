@@ -15,7 +15,7 @@
 </head>
 
 <?php
-// var_dump($_SESSION);
+
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
@@ -120,7 +120,6 @@ include_once 'section.php';
                     $box =  new Box($conn);
                     $user_boxes = $box->readByOwnerId(100, $_SESSION['PersonID']);
                     $i = 1;
-                    // var_dump($user_boxes);
                     foreach ($user_boxes as $box_item) {
                         echo " <tr><th scope=\"row\">" . $box_item['id'] . "</th>
                 <td>" . $box_item['title'] . "</td>
