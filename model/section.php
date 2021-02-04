@@ -7,6 +7,8 @@ class Section{
     public $prev_section;
     public $next_section;
     public $id;
+    public $created_at;
+    
     public function __construct($db){
         $this->conn = $db;
     }
@@ -16,10 +18,11 @@ class Section{
         $query = "INSERT INTO
                     " . $this->table_name . "
                 SET
-                box_id=".$this->box_id." ; ";
+                box_id=".$this->box_id.", created_at=:created_at ; ";
     
         $stmt = $this->conn->prepare($query);
-    
+        $this->created_at = date("Y-m-d G:i:s");
+        $stmt->bindParam(":created_at",$this->created_at );
 
         echo "creating section\r\n";
         if($stmt->execute()){

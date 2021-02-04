@@ -11,6 +11,7 @@ class Card{
     public $back_image_name;
     public $back_audio_name;
     public $id;
+    public $created_at;
     public function __construct($db){
         $this->conn = $db;
     }
@@ -26,10 +27,12 @@ class Card{
                 front_image_name = :front_image_name,
                 front_audio_name = :front_audio_name,
                 back_image_name = :back_image_name,
+                created_at = :created_at,
                 back_audio_name = :back_audio_name; ";
     
         $stmt = $this->conn->prepare($query);
 
+        
 
         $this->sanitize();
         $stmt->bindParam(":section_id", $this->section_id);
@@ -39,8 +42,11 @@ class Card{
         $stmt->bindParam(":front_audio_name", $this->front_audio_name);
         $stmt->bindParam(":back_image_name", $this->back_image_name);
         $stmt->bindParam(":back_audio_name", $this->back_audio_name);
+        $this->created_at = date("Y-m-d G:i:s");
+        $stmt->bindParam(":created_at",$this->created_at );
 
         echo "creating section\r\n";
+        
         if($stmt->execute()){
             $this->id = $this->conn->lastInsertId();
             return true;
@@ -72,7 +78,7 @@ class Card{
         $this->front_audio_name = $row['front_audio_name'];
         $this->back_image_name = $row['back_image_name'];
         $this->back_audio_name = $row['back_audio_name'];
-
+        $this->created_at = $row['created_at'];
 
         if( $stmt->rowCount() > 0){
             return true;

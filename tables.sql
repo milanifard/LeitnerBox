@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `box`(
     description_text TEXT,
     ownerId int,
     default_section int,
+    created_at DATETIME,
     PRIMARY KEY(id),
     FOREIGN KEY(`default_section`) REFERENCES `section`(id) ON DELETE CASCADE
 );
@@ -17,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `section`(
     box_id int,
     prev_section int,
     next_section int,
+    created_at DATETIME,
     PRIMARY KEY(id),
     FOREIGN KEY(`box_id`) REFERENCES `box`(id) ON DELETE CASCADE,
     FOREIGN KEY(`prev_section`) REFERENCES `section`(id),
@@ -32,6 +34,7 @@ CREATE TABLE IF NOT EXISTS `card`(
     back_image_name CHAR(255),
     back_audio_name CHAR(255),
     section_id int NOT NULL,
+    created_at DATETIME,
     PRIMARY KEY(id),
     FOREIGN KEY(`section_id`) REFERENCES `section`(id) ON DELETE CASCADE
 );

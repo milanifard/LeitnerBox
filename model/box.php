@@ -8,6 +8,9 @@ class Box{
     public $description_text;
     public $default_section;
     public $id;
+    public $created_at;
+
+
     public function __construct($db){
         $this->conn = $db;
     }
@@ -17,12 +20,15 @@ class Box{
         $query = "INSERT INTO
                     " . $this->table_name . "
                 SET
-                title=:title, description_text=:description_text , ownerId=:ownerId";
+                title=:title, description_text=:description_text , ownerId=:ownerId , created_at=:created_at";
     
         $stmt = $this->conn->prepare($query);
     
         $this->sanitize();
         $this->bind_values($stmt);
+        $this->created_at = date("Y-m-d G:i:s");
+        $stmt->bindParam(":created_at",$this->created_at );
+
 
         echo "creating box\r\n";
         if($stmt->execute()){
@@ -68,7 +74,7 @@ class Box{
         $this->description_text = $row['description_text'];
         $this->ownerId = $row['ownerId'];
         $this->default_section = $row['default_section'];
-
+        $this->created_at = $row['created_at'];
 
         if( $stmt->rowCount() > 0){
             return true;
@@ -137,8 +143,6 @@ class Box{
         $stmt->bindParam(":title", $this->title );
         $stmt->bindParam(":description_text", $this->description_text);
         $stmt->bindParam(":ownerId", $this->ownerId);
-        // $stmt->bindParam(":default_section", $this->default_section);
-        // $stmt->bindParam(":id", $this->id );
     }
 
 }
