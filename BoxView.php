@@ -126,34 +126,39 @@
                     }
                     $card->create();
                 }else if(isset($_REQUEST["answer_card"])){
-
                     $card =  new card($conn);
-                    $card->readById($_REQUEST["card_id"]);
-                    if($card->back_text == $_REQUEST["answer"]){
-                        echo "your answer is true";
-                        echo "<script>open_card_modal(
-                            event,
-                            1,
-                            '',
-                            'user_files/images/". $card->front_image_name ."',
-                            'user_files/audios/". $card->front_audio_name ."',
-                            '". $card->back_text ."',
-                            'user_files/images/". $card->front_image_name ."',
-                            'user_files/audios/". $card->back_image_name ."',
-                        ) </script>";
-                    }else{
-                        echo "your answer is NOT true";
+                    $card-> readById(intval($_REQUEST["card_id"]));
+                    $card_section =  new Section($conn);
+                    $card_section->id = intval($card->section_id) ;
+                    $card_section->readById();
+                    wh_log("card to update");
+                    wh_log( $card);
+                    if($_REQUEST["answer_card"] == 'true'){
+                        wh_log("CORRECT ANSWER , card_id=".$_REQUEST["card_id"]);
+                        if($card_section->next_section){
+                            $card->section_id = $card_section->next_section;
+                            $card->update();
+                        }
 
+                    }else if ($_REQUEST["answer_card"] == 'false'){
+                        wh_log("WRONG ANSWER , card_id=".$_REQUEST["card_id"]);
+                        if($card_section->prev_section){
+                            $card->section_id = $card_section->prev_section;
+                            $card->update();
+                        }
+                        
                     }
+   
                 }
 
-                echo "<script>window.location.href = window.location.href;</script>";
+                // echo "<script>window.location.href = window.location.href;</script>";
                 die();
             } else {
 
 
                 $section = new Section($conn);
                 $box_sections = $section->readByBoxId(100, $_REQUEST['box_id']);
+
 
             }
         } else {
@@ -291,8 +296,6 @@
                     echo '</div>';
                     $k++;
                 }
-
-
 
                 ?>
 

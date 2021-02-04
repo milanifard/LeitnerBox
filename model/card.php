@@ -132,9 +132,9 @@ class Card{
                     front_image_name = :front_image_name,
                     front_audio_name = :front_audio_name,
                     back_image_name = :back_image_name,
-                    back_audio_name = :back_audio_name,
+                    back_audio_name = :back_audio_name
                 WHERE
-                    id = :id ;";
+                    id = :id; ";
 
         $stmt = $this->conn->prepare($query);
     
@@ -151,6 +151,7 @@ class Card{
 
         
     function sanitize(){
+        $this->id = intval($this->id);
         $this->section_id=htmlspecialchars(strip_tags($this->section_id));
         $this->front_text=htmlspecialchars(strip_tags($this->front_text));
         $this->back_text=htmlspecialchars(strip_tags($this->back_text));
@@ -158,6 +159,8 @@ class Card{
         $this->front_audio_name=htmlspecialchars(strip_tags($this->front_audio_name));
         $this->back_image_name=htmlspecialchars(strip_tags($this->back_image_name));
         $this->back_audio_name=htmlspecialchars(strip_tags($this->back_audio_name));
+        $this->id=htmlspecialchars(strip_tags($this->id));
+
     }
 
     function bind_values($stmt){

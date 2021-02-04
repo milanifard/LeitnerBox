@@ -21,7 +21,7 @@ class Section{
                 box_id = :box_id,
                 prev_section = :prev_section,
                 next_section = :next_section,
-                created_at = :created_at; ";
+                created_at = :created_at; ";    
     
         $stmt = $this->conn->prepare($query);
 
@@ -115,7 +115,7 @@ class Section{
                     prev_section = :prev_section,
                     next_section = :next_section
                 WHERE
-                    id = :id ;";
+                    id = :id; ";
 
         $stmt = $this->conn->prepare($query);
     

@@ -10,6 +10,10 @@ var close_all_modals = (event, out_click = false) => {
     change_element_display(get_element(wrapper_modal_name), 'none')
     change_element_display(get_element(create_card_modal_name), 'none')
     change_element_display(get_element(card_modal_name), 'none')
+
+
+    //reload page to show card in new section
+    window.location.href =  window.location.href;
 }
 
 var get_element = (name) => document.querySelector(name)
@@ -53,7 +57,7 @@ var open_card_modal = (
                 <p>` + front_text + `</p>
             </div>
             <input required="required" class="text-inp" type="text" name="answer" id="answer" placeholder="جواب را وارد کنید">
-            <button class="ltn-button" onclick="flipp('${back_audio}' , '${back_image}' , '${back_text}')">بفرست</button>`
+            <button class="ltn-button" onclick="flipp('${back_audio}' , '${back_image}' , '${back_text}' , '${id}')">بفرست</button>`
 
 
 
@@ -62,11 +66,12 @@ var open_card_modal = (
     change_element_display(get_element(wrapper_modal_name), 'flex')
     change_element_display(get_element(card_modal_name), 'block')
 }
-var flipp = (back_audio , back_image , back_text) => {
+var flipp = (back_audio , back_image , back_text , card_id) => {
 
     el = get_element(card_modal_name)
 
     if(document.getElementById("answer").value === back_text ){
+        send_post_request("answer_card=true&card_id="+card_id)
         el.innerHTML = ` <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
 
         <img onerror="this.onerror=null; this.src='placeholder.png'" src="` + back_image + `" alt="alternative">
@@ -77,9 +82,29 @@ var flipp = (back_audio , back_image , back_text) => {
         <div class="card-text">
             <p>` + back_text + `</p>
         </div>`
-    }else{
 
+        
+    }else{
+        send_post_request("answer_card=false&card_id="+card_id)
         alert("پاسخت اشتباه بود!")
+        
     }
 
+}
+function send_post_request(params){
+    console.log("request post sending")
+    var http = new XMLHttpRequest();
+    var url = window.location.href;
+    http.open('POST', url, true);
+
+    //Send the proper header information along with the request
+    http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+    http.onreadystatechange = function() {//Call a function when the state changes.
+        if(http.readyState == 4 && http.status == 200) {
+            // console.log(http.responseText);
+            console.log("request post done")
+        }
+    }
+    http.send(params);
 }
