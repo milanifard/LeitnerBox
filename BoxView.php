@@ -17,7 +17,7 @@
 
 <body>
     <?php
-
+    date_default_timezone_set('Asia/Tehran');
     error_reporting(E_ALL);
     define('BASE_PATH', '../../LeitnerBox/');
     ini_set('display_errors', '1');
