@@ -1,3 +1,4 @@
+var card_modal_name = '#card-view';
 function addRowHandlers() {
 
     var table = document.getElementById("boxes-table");
@@ -25,14 +26,12 @@ function addRowHandlers() {
 
     }
 }
-
-
-
 function submitForm() {
     console.log("hello con");
     document.fbox.submit();
 
 }
+
 
 
 addRowHandlers();

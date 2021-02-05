@@ -1,14 +1,38 @@
 var wrapper_modal_name = '.modal-wrapper'
 var create_card_modal_name = '#create-card-modal'
 var card_modal_name = '#card-view'
+var editBoxById =(id) =>
+{
 
+    // first get the elements and replace with inputs
+    el = get_element(card_modal_name)
+    $box_id=1
+    el.innerHTML = `
+        <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
+
+        <form action="./LeitnerBox.php" method="post">
+        <input type="hidden" name="id" value=${id}>
+        <div class="form-group">
+            <label class="mt-4" for="box-name">نام جعبه</label>
+            <input type="text" class="form-control" name="edit-box-name">
+        </div>
+        <div class="form-group">
+            <label for="box-description">توضیحات جعبه</label>
+            <textarea class="form-control" name="edit-box-description" rows="3"></textarea>
+        </div>
+        <button type="submit" class="ltn-button">ویرایش</button>
+    </form>
+    `
+    // then display them
+    
+    change_element_display(get_element(card_modal_name), 'block');
+}
 var close_all_modals = (event, out_click = false) => {
     event.preventDefault()
     if (out_click)
         if (get_element(wrapper_modal_name) !== event.target)
             return
-    change_element_display(get_element(wrapper_modal_name), 'none')
-    change_element_display(get_element(create_card_modal_name), 'none')
+    
     change_element_display(get_element(card_modal_name), 'none')
 
 
@@ -26,6 +50,7 @@ var open_create_card_modal = (event) => {
     change_element_display(get_element(create_card_modal_name), 'block');
     change_element_display(get_element(card_modal_name), 'none');
 }
+
 
 var open_card_modal = (
     event,
@@ -57,13 +82,34 @@ var open_card_modal = (
                 <p>` + front_text + `</p>
             </div>
             <input required="required" class="text-inp" type="text" name="answer" id="answer" placeholder="جواب را وارد کنید">
-            <button class="ltn-button" onclick="flipp('${back_audio}' , '${back_image}' , '${back_text}' , '${id}')">بفرست</button>`
-
-
+            <button class="ltn-button" onclick="flipp('${back_audio}' , '${back_image}' , '${back_text}' , '${id}')">بفرست</button>
+            <button class="ltn-button" onclick="delCard(${id})">حذف</button>
+            `
 
 
     // then display them
     change_element_display(get_element(wrapper_modal_name), 'flex')
+    change_element_display(get_element(card_modal_name), 'block')
+}
+var delCard = (id) => {
+    
+
+    // first get the elements and replace with inputs
+    el = get_element(card_modal_name)
+    $box_id=document.getElementsByClassName('leitner-header')[0].id;
+    el.innerHTML = `
+        <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
+
+            <div class="card-text">
+                <p>` + "آیا مطمئن به حذف کارت هستید؟" + `</p>
+            </div>
+            <form action="../www/sadaf/BoxView.php" method="get"><input type="hidden" name="delCard" value="${$box_id},${id}"> <button type="submit" class="ltn-button">بله</button></form>
+            <button class="ltn-button" onclick="close_all_modals(event)">خیر</button>
+            `
+
+
+    // then display them
+    
     change_element_display(get_element(card_modal_name), 'block')
 }
 var flipp = (back_audio , back_image , back_text , card_id) => {
