@@ -1,35 +1,101 @@
 <?php
+include_once 'database.php';
 
-include_once 'box.php';
-include_once 'section.php';
-include_once 'card.php';
-
-
-function export_box($box_id, $conn, $person_id)
+class Zipper
 {
-    $date_str = date("Y_m_d_G_i");
-    $user_dir =  BASE_PATH . 'user_files/boxes/' . $person_id;
-    if (!file_exists($user_dir)) {
-        mkdir($user_dir, 0777, true);
+
+    /**
+     * Add files and sub-directories in a folder to zip file.
+     *
+     * @param string $folder
+     *   Path to folder that should be zipped.
+     *
+     * @param ZipArchive $zipFile
+     *   Zipfile where files end up.
+     *
+     * @param int $exclusiveLength
+     *   Number of text to be exclusived from the file path.
+     */
+    private static function folderToZip($folder, &$zipFile, $exclusiveLength)
+    {
+        $handle = opendir($folder);
+
+        while (FALSE !== $f = readdir($handle)) {
+            // Check for local/parent path or zipping file itself and skip.
+            if ($f != '.' && $f != '..' && $f != basename(__FILE__)) {
+                $filePath = "$folder/$f";
+                // Remove prefix from file path before add to zip.
+                $localPath = substr($filePath, $exclusiveLength);
+
+                if (is_file($filePath)) {
+                    $zipFile->addFile($filePath, $localPath);
+                } elseif (is_dir($filePath)) {
+                    // Add sub-directory.
+                    $zipFile->addEmptyDir($localPath);
+                    self::folderToZip($filePath, $zipFile, $exclusiveLength);
+                }
+            }
+        }
+        closedir($handle);
     }
-    $section = new Section($conn);
-    $box_sections = $section->readByBoxId(100, $box_id);
-    $file_name = $user_dir . '/sections_' . $box_id . '_' . $date_str . '_.json';
-    $fp = fopen($file_name, 'w');
-    fwrite($fp, json_encode($box_sections));
-    fclose($fp);
-    foreach ($box_sections as $current_section) {
-        $card = new Card($conn);
-        $section_cards = $card->readBySectionId(100,  $current_section['id']);
-        $file_name = $user_dir . '/cards_' . $box_id . '_' . $date_str . '_.txt';
 
+    /**
+     * Zip a folder (including itself).
+     *
+     * Usage:
+     *   Zipper::zipDir('path/to/sourceDir', 'path/to/out.zip');
+     *
+     * @param string $sourcePath
+     *   Relative path of directory to be zipped.
+     *
+     * @param string $outZipPath
+     *   Relative path of the resulting output zip file.
+     */
+    public static function zipDir($sourcePath, $outZipPath)
+    {
+        $pathInfo = pathinfo($sourcePath);
+        $parentPath = $pathInfo['dirname'];
+        $dirName = $pathInfo['basename'];
 
+        $z = new ZipArchive();
+        $z->open($outZipPath, ZipArchive::CREATE);
+        $z->addEmptyDir($dirName);
+        if ($sourcePath == $dirName) {
+            self::folderToZip($sourcePath, $z, 0);
+        } else {
+            self::folderToZip($sourcePath, $z, strlen("$parentPath/"));
+        }
+        $z->close();
 
-        $sections_var = var_export($section_cards, true);
-        $sections_var =  mb_convert_encoding($sections_var, 'UTF-8', 'auto');
-        $fp = fopen($file_name, 'w');
-        fwrite($fp, $sections_var);
-        fclose($fp);
-        var_dump($sections_var);
+        $GLOBALS['status'] = array('success' => 'Successfully created archive ' . $outZipPath);
     }
+}
+function getTable($table)
+{
+    $db =  new Database();
+    $conn = $db->getConnection();
+    $query = "SELECT * from `$table`";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+
+    return  $stmt->fetchAll();
+}
+
+if (isset($_REQUEST["path"])) {
+    $path = $_REQUEST["path"];
+
+    $tables = ['box', 'card', 'section'];
+    $out = "";
+    foreach ($tables as $table) {
+        $result = getTable($table);
+        foreach ($result as $row) {
+            for ($i = 0; $i < count($row) / 2; $i++)
+                $out .= $row[$i] . ",";
+            $out .= "\n";
+        }
+        $out .= "---\n";
+    }
+
+    file_put_contents("../user_files/data.txt", $out);
+    Zipper::zipDir("../user_files", "export.zip");
 }
