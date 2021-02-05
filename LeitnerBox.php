@@ -47,8 +47,9 @@ include_once 'section.php';
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
+                <button type="submit" class="btn ml-3 mr-3 btn-primary">Export</button>
+                <button type="submit" class="btn ml-3 mr-3 btn-primary">Import</button>
             </form>
         </div>
     </nav>
@@ -79,6 +80,8 @@ right: 0;
 
 " class="card-modal create-card-modal" id="card-view">
         </div>
+
+
         <table class="table" id="boxes-table">
             <thead>
                 <tr>
@@ -136,6 +139,8 @@ right: 0;
                         $box->id = $_REQUEST['remove_id'];
                         $box->deleteByID();
                         echo "<script>window.location.href = 'LeitnerBox.php';</script>";
+                    } else if (isset($_REQUEST["export"])) {
+                        export_box($_REQUEST['box_id'], $conn, $_SESSION['UserID']);
                     }
                 } //else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 //  echo "<script>window.location.href = 'LeitnerBox.php';</script>";

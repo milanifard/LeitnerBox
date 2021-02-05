@@ -252,13 +252,8 @@
                 </a>
             </div>
 
-            <hr>
-            <div class="d-flex justify-content-center">
-
-                <form action=<?php echo $_SERVER['REQUEST_URI']; ?> method="post" id="import"><input type="hidden" name="import" value=<?php echo $_REQUEST['box_id'] ?> /> <button type="submit" form="import" class="btn btn-primary ml-3 mr-3">Import</button></form>
-                <form action=<?php echo $_SERVER['REQUEST_URI']; ?> method="post" id="export"><input type="hidden" name="export" value=<?php echo $_REQUEST['box_id'] ?> /> <button type="submit" form="export" class="btn btn-primary ml-3 mr-3">Export</button></form>
-
-            </div>
+        
+            
             <hr>
             <div class="leitner-game">
 
@@ -268,7 +263,7 @@
                     echo '<div class="leitner-section">';
                     echo '<div class="section-header">';
                     echo '<h4 >بخش شماره ' . $k . '</h4>';
-                    echo "<form action=\"" . $_SERVER['REQUEST_URI'] . "\" method=\"post\" id=\"form" . $current_section['id'] . "\"><input type=\"hidden\" name=\"remove_section_id\" value=\"" . $current_section['id'] . "\" /><button type=\"submit\" form=\"form" . $current_section['id'] . "\" onlick=\"removeBox()\"  class=\"btn btn-danger\">حذف</button></form>";
+
                     echo '</div>';
                     echo '<hr>';
                     echo '<div class="card-wrapper">';
