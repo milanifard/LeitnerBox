@@ -43,6 +43,8 @@
     include_once 'box.php';
     include_once 'section.php';
     include_once 'card.php';
+    include_once 'box_export.php';
+    include_once 'box_import.php';
 
 
     if (isset($_SESSION['UserID'])) { //if login in session is not set
@@ -149,6 +151,8 @@
                         
                     }
    
+                }else if(isset($_REQUEST["export"])){
+                    export_box($_REQUEST['box_id'] , $conn);
                 }
 
                 // echo "<script>window.location.href = window.location.href;</script>";
@@ -245,6 +249,14 @@
                 <a class="ltn-button" onclick="open_create_card_modal(event)">
                     اضافه کردن کارت جدید به جعبه لایتنر
                 </a>
+            </div>
+            
+            <hr>
+            <div class="d-flex justify-content-center">
+                
+                <form action=<?php echo $_SERVER['REQUEST_URI']; ?> method="post" id="import" ><input type="hidden" name="import" value=<?php echo $_REQUEST['box_id'] ?> /> <button type="submit" form="import" class="btn btn-primary ml-3 mr-3">Import</button></form>
+                <form action=<?php echo $_SERVER['REQUEST_URI']; ?> method="post" id="export" ><input type="hidden" name="export" value=<?php echo $_REQUEST['box_id'] ?> /> <button type="submit" form="export" class="btn btn-primary ml-3 mr-3">Export</button></form>
+                
             </div>
             <hr>
             <div class="leitner-game">

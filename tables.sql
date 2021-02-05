@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `box`(
     created_at DATETIME,
     PRIMARY KEY(id),
     -- incase of circular problem comment line below and execute .sql
-    FOREIGN KEY(`default_section`) REFERENCES `section`(id) ON DELETE CASCADE
+    FOREIGN KEY(`default_section`) REFERENCES `section`(id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS `section`(
