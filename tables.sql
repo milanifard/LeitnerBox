@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS `box`(
     default_section int,
     created_at DATETIME,
     PRIMARY KEY(id),
+    -- incase of circular problem comment line below and execute .sql
     FOREIGN KEY(`default_section`) REFERENCES `section`(id) ON DELETE CASCADE
 );
 
@@ -24,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `section`(
     FOREIGN KEY(`prev_section`) REFERENCES `section`(id) ON DELETE SET NULL ,
     FOREIGN KEY(`next_section`) REFERENCES `section`(id) ON DELETE SET NULL 
 );
+
 
 CREATE TABLE IF NOT EXISTS `card`(
     id int AUTO_INCREMENT,
