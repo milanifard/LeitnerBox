@@ -152,7 +152,7 @@
                     }
    
                 }else if(isset($_REQUEST["export"])){
-                    export_box($_REQUEST['box_id'] , $conn);
+                    export_box($_REQUEST['box_id'] , $conn ,$_SESSION['UserID'] );
                 }
 
                 // echo "<script>window.location.href = window.location.href;</script>";
@@ -289,7 +289,7 @@
                         echo "<a  class=\"open-card-btn\"
                         onclick=\"open_card_modal(
                             event,
-                            ,". $current_card['id'] ."
+                            ". $current_card['id'] .",
                             '". $current_card['front_text'] ."',
                             'user_files/images/". $current_card['front_image_name'] ."',
                             'user_files/audios/". $current_card['front_audio_name'] ."',
