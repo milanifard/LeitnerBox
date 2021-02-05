@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>جعبه لایتنر</title>
     <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.0.0/css/bootstrap.min.css" integrity="sha384-P4uhUIGk/q1gaD/NdgkBIl3a6QywJjlsFJFk7SPRdruoGddvRVSwv5qFnvZ73cpz" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../LeitnerBox/html/leitner.css">
 
     <?php
 
@@ -69,6 +70,15 @@ include_once 'section.php';
 
         </form>
         <button type="button" name="create" onclick="submitForm()" class="btn btn-primary btn-lg mt-1 mb-4">افزودن جعبه جدید</button>
+        <div style="position: absolute; 
+bottom: 0;
+margin: auto;
+
+left: 0;
+right: 0;
+
+" class="card-modal create-card-modal" id="card-view">
+        </div>
         <table class="table" id="boxes-table">
             <thead>
                 <tr>
@@ -76,6 +86,7 @@ include_once 'section.php';
                     <th scope="col">نام</th>
                     <th scope="col">توضیحات</th>
                     <th scope="col"></th>
+
                 </tr>
             </thead>
             <?php
@@ -84,7 +95,18 @@ include_once 'section.php';
 
             if (isset($_SESSION['UserID'])) { //if login in session is not set
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    if (isset($_REQUEST["box-name"])) {
+                    if (isset($_REQUEST["edit-box-name"]) || isset($_REQUEST["edit-box-description"])) {
+                        $box_id = $_REQUEST["id"];
+                        $box_name = $_REQUEST["edit-box-name"];
+                        $box_description = $_REQUEST["edit-box-description"];
+                        echo "<script>console.log('$box_id');</script>";
+                        $box =  new Box($conn);
+                        $box->id = $box_id;
+                        $box->title = (isset($_REQUEST["edit-box-name"])) ? $box_name : null;
+                        $box->description_text = (isset($_REQUEST["edit-box-description"])) ? $box_description : null;
+                        $box->editByID();
+                        header("Location: ./LeitnerBox.php");
+                    } else if (isset($_REQUEST["box-name"])) {
 
                         $box =  new Box($conn);
                         $box->ownerId = $_REQUEST["ownerId"];
@@ -115,16 +137,21 @@ include_once 'section.php';
                         $box->deleteByID();
                         echo "<script>window.location.href = 'LeitnerBox.php';</script>";
                     }
-                } else {
+                } //else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                //  echo "<script>window.location.href = 'LeitnerBox.php';</script>";
+                //  } 
+                else {
 
                     $box =  new Box($conn);
                     $user_boxes = $box->readByOwnerId(100, $_SESSION['PersonID']);
                     $i = 1;
                     foreach ($user_boxes as $box_item) {
+                        $id = $box_item['id'];
                         echo " <tr><th scope=\"row\">" . $box_item['id'] . "</th>
                 <td>" . $box_item['title'] . "</td>
                 <td>" . $box_item['description_text'] . "</td>
-                <td><form action=\"./LeitnerBox.php\" method=\"post\" id=\"form" . $box_item['id'] . "\"><input type=\"hidden\" name=\"remove_id\" value=\"" . $box_item['id'] . "\" /><button type=\"submit\" form=\"form" . $box_item['id'] . "\" onlick=\"removeBox()\"  class=\"btn btn-danger\">حذف</button></form></td> </tr>";
+                <td class=\"row\" ><form action=\"./LeitnerBox.php\" method=\"post\" id=\"form" . $box_item['id'] . "\"><input type=\"hidden\" name=\"remove_id\" value=\"" . $box_item['id'] . "\" /><button type=\"submit\" form=\"form" . $box_item['id'] . "\" onlick=\"removeBox()\"  class=\"btn btn-danger\">حذف</button></form>&nbsp
+                <button  class=\"btn btn-primary\" onclick=\"editBoxById($id)\" > ویرایش</button></td> </tr>";;
                         $i++;
                     }
                 }
@@ -137,6 +164,9 @@ include_once 'section.php';
     </main><!-- /.container -->
 
     <script src="../../LeitnerBox/html/boxlist.js"></script>
+    <script src="../../LeitnerBox/html/leitner.js"></script>
+
+
 </body>
 
 </html>

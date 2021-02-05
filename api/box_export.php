@@ -22,10 +22,10 @@ function export_box($box_id, $conn, $person_id)
         $card = new Card($conn);
         $section_cards = $card->readBySectionId(100,  $current_section['id']);
         $file_name = $user_dir . '/cards_' . $box_id . '_' . $date_str . '_.txt';
-          
 
 
-        $sections_var = var_export($section_cards,true);
+
+        $sections_var = var_export($section_cards, true);
         $sections_var =  mb_convert_encoding($sections_var, 'UTF-8', 'auto');
         $fp = fopen($file_name, 'w');
         fwrite($fp, $sections_var);
