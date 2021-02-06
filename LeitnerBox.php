@@ -7,6 +7,7 @@
     <title>جعبه لایتنر</title>
     <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.0.0/css/bootstrap.min.css" integrity="sha384-P4uhUIGk/q1gaD/NdgkBIl3a6QywJjlsFJFk7SPRdruoGddvRVSwv5qFnvZ73cpz" crossorigin="anonymous">
     <link rel="stylesheet" href="../../LeitnerBox/html/leitner.css">
+    <script src="../../LeitnerBox/html/leitner.js"></script>
 
     <?php
 
@@ -46,11 +47,10 @@ include_once 'section.php';
 
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-
-                <button type="submit" class="btn ml-3 mr-3 btn-primary">Export</button>
-                <button type="submit" class="btn ml-3 mr-3 btn-primary">Import</button>
-            </form>
+            <div class="form-inline my-2 my-lg-0">
+                <a href="../../LeitnerBox/config/box_export.php" class="btn ml-3 mr-3 btn-primary" target="_blank">Export</a>
+                <button class="btn ml-3 mr-3 btn-primary" onclick="Import()">Import</button>
+            </div>
         </div>
     </nav>
 
@@ -72,13 +72,12 @@ include_once 'section.php';
         </form>
         <button type="button" name="create" onclick="submitForm()" class="btn btn-primary btn-lg mt-1 mb-4">افزودن جعبه جدید</button>
         <div style="position: absolute; 
-bottom: 0;
+top: 20%;
 margin: auto;
-
 left: 0;
 right: 0;
 
-" class="card-modal create-card-modal" id="card-view">
+" class="create-card-modal" id="card-view">
         </div>
 
 
@@ -88,7 +87,7 @@ right: 0;
                     <th scope="col">#</th>
                     <th scope="col">نام</th>
                     <th scope="col">توضیحات</th>
-                    <th scope="col"></th>
+                    <th scope="col">عملیات</th>
 
                 </tr>
             </thead>
@@ -110,7 +109,6 @@ right: 0;
                         $box->editByID();
                         header("Location: ./LeitnerBox.php");
                     } else if (isset($_REQUEST["box-name"])) {
-
                         $box =  new Box($conn);
                         $box->ownerId = $_REQUEST["ownerId"];
 
@@ -169,7 +167,6 @@ right: 0;
     </main><!-- /.container -->
 
     <script src="../../LeitnerBox/html/boxlist.js"></script>
-    <script src="../../LeitnerBox/html/leitner.js"></script>
 
 
 </body>

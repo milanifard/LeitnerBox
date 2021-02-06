@@ -42,7 +42,6 @@
     include_once 'box.php';
     include_once 'section.php';
     include_once 'card.php';
-    include_once 'box_export.php';
     //  include_once 'box_import.php';
 
 
@@ -58,7 +57,48 @@
                 wh_log(" POST:");
                 wh_log($_POST);
 
-                if (isset($_REQUEST["create_section"])) {
+                if (isset($_REQUEST["edit_card"])) {
+                    $card =  new card($conn);
+                    $card->id = $_REQUEST['edit_card'];
+                    $card->readById($card->id);
+                    if (isset($_REQUEST["front_text"]) && $_REQUEST["front_text"] != "")
+                        $card->front_text = $_REQUEST["front_text"];
+                    if (isset($_REQUEST["back_text"])  && $_REQUEST["back_text"]!= "")
+                        $card->back_text = $_REQUEST["back_text"];
+
+                    $date_str = date("Y_m_d_G_i");
+                    if (isset($_FILES["front_image"]) && $_FILES['front_image']['name'] != '') {
+                        unlink(BASE_PATH . "user_files/images/" . $card->front_image_name);
+                        $file_name = $_SESSION['UserID'] . "_frontimg_" . $date_str . "_" . $_FILES['front_image']['name'];
+                        move_uploaded_file($_FILES['front_image']['tmp_name'], BASE_PATH . "user_files/images/" . $file_name);
+                        $card->front_image_name = $file_name;
+                    }
+                    if (isset($_FILES["back_image"])  && $_FILES['back_image']['name'] != '') {
+                        unlink(BASE_PATH . "user_files/images/" . $card->back_image_name);
+                        $file_name = $_SESSION['UserID'] . "_backimg_" . $date_str . "_" . $_FILES['back_image']['name'];
+                        move_uploaded_file($_FILES['back_image']['tmp_name'], BASE_PATH . "user_files/images/" . $file_name);
+                        $card->back_image_name = $file_name;
+                    }
+
+                    if (isset($_FILES["front_audio"]) && $_FILES['front_audio']['name'] != '') {
+                        unlink(BASE_PATH . "user_files/audios/" . $card->front_audio_name);
+                        $file_name = $_SESSION['UserID'] . "_frontaudio_" . $date_str . "_" . $_FILES['front_audio']['name'];
+                        echo "\n front audio : ";
+                        wh_log($file_name);
+                        move_uploaded_file($_FILES['front_audio']['tmp_name'], BASE_PATH . "user_files/audios/" . $file_name);
+                        $card->front_audio_name = $file_name;
+                    }
+                    if (isset($_FILES["back_audio"]) && $_FILES['back_audio']['name'] != '') {
+                        unlink(BASE_PATH . "user_files/audios/" . $card->back_audio_name);
+                        $file_name = $_SESSION['UserID'] . "_backaudio_" . $date_str . "_" . $_FILES['back_audio']['name'];
+                        echo "\n back audio : ";
+                        wh_log($file_name);
+                        move_uploaded_file($_FILES['back_audio']['tmp_name'], BASE_PATH . "user_files/audios/" . $file_name);
+                        $card->back_audio_name = $file_name;
+                    }
+                    $card->editById();
+                    header("Location: ./BoxView.php?box_id=$box->id");
+                } else if (isset($_REQUEST["create_section"])) {
                     $section =  new Section($conn);
                     $section->box_id = $box->id;
 
@@ -79,17 +119,14 @@
                     wh_log("\n prev section : ");
                     wh_log($previous_section);
                     $previous_section->update();
-
-                    wh_log("\n ncreated section : ");
-                    wh_log($section);
+                    header("Location: ./BoxView.php?box_id=$box->id");
                 } else if (isset($_REQUEST['remove_section_id'])) //if login in session is not set
                 {
                     $section =  new Section($conn);
                     $section->id = $_REQUEST['remove_section_id'];
                     $section->deleteByID();
+                    header("Location: ./BoxView.php?box_id=$box->id");
                 } else if (isset($_REQUEST["create_card"])) {
-
-
                     wh_log("FILEs:");
                     wh_log($_FILES);
                     $card =  new card($conn);
@@ -102,6 +139,8 @@
                         $file_name = $_SESSION['UserID'] . "_frontimg_" . $date_str . "_" . $_FILES['front_image']['name'];
                         move_uploaded_file($_FILES['front_image']['tmp_name'], BASE_PATH . "user_files/images/" . $file_name);
                         $card->front_image_name = $file_name;
+
+                        $pppp = BASE_PATH . "user_files/images/" . $file_name;
                     }
                     if (isset($_FILES["back_image"])  && $_FILES['back_image']['name'] != '') {
                         $file_name = $_SESSION['UserID'] . "_backimg_" . $date_str . "_" . $_FILES['back_image']['name'];
@@ -124,6 +163,7 @@
                         $card->back_audio_name = $file_name;
                     }
                     $card->create();
+                    header("Location: ./BoxView.php?box_id=$box->id");
                 } else if (isset($_REQUEST["answer_card"])) {
                     $card =  new card($conn);
                     $card->readById(intval($_REQUEST["card_id"]));
@@ -145,11 +185,19 @@
                             $card->update();
                         }
                     }
-                } else if (isset($_REQUEST["export"])) {
-                    export_box($_REQUEST['box_id'], $conn, $_SESSION['UserID']);
-                }
+                } else if (isset($_REQUEST['delCard'])) {
+                    $id = $_REQUEST['delCard'];
+                    echo "<script>console.log('$id')</script>";
+                    $id = explode(",", $id);
+                    $card = new Card($conn);
+                    $card->id = $id[1];
+                    $card->deleteByID();
+                    header("Location: ".$_SERVER['REQUEST_URI']);
 
-                // echo "<script>window.location.href = window.location.href;</script>";
+
+                } 
+
+                echo "<script>window.location.href = window.location.href;</script>";
                 die();
             } else {
 
@@ -157,15 +205,6 @@
                 $section = new Section($conn);
                 $box_sections = $section->readByBoxId(100, $_REQUEST['box_id']);
             }
-        } else if (isset($_REQUEST['delCard'])) {
-            $id = $_REQUEST['delCard'];
-            echo "<script>console.log('$id')</script>";
-            $id = explode(",", $id);
-            $card = new Card($conn);
-            $card->id = $id[1];
-            $card->deleteByID();
-            header("Location: ./BoxView.php?box_id=$id[0]");
-            exit();
         } else {
             die();
         }
@@ -187,8 +226,6 @@
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
     </nav>
@@ -225,7 +262,6 @@
             </div>
 
             <div class="card-modal create-card-modal" id="card-view">
-
             </div>
         </div>
 
@@ -247,13 +283,13 @@
             </div>
             <hr>
             <div class="create-cart">
-                <a class="ltn-button" onclick="open_create_card_modal(event)">
+                <button class="ltn-button" onclick="open_create_card_modal(event)">
                     اضافه کردن کارت جدید به جعبه لایتنر
-                </a>
+                </button>
             </div>
 
-        
-            
+
+
             <hr>
             <div class="leitner-game">
 
@@ -263,7 +299,6 @@
                     echo '<div class="leitner-section">';
                     echo '<div class="section-header">';
                     echo '<h4 >بخش شماره ' . $k . '</h4>';
-
                     echo '</div>';
                     echo '<hr>';
                     echo '<div class="card-wrapper">';
@@ -274,15 +309,13 @@
 
 
                     foreach ($section_cards as $current_card) {
-                        echo '<div class="card">';
-                        echo '<div class="top-pic">';
-                        echo '<img onerror="this.onerror=null; this.src=\'placeholder.png\'" src="user_files/images/' . $current_card['front_image_name'] . '" alt="alternative">';
-                        echo '</div>';
-                        echo '<div class="middle-audio">';
+                        echo '<div style ="height:25vw;" class="card">';
+                        echo '<div style="width: 100%;height: 56%; margin: 0 auto;">';
+                        echo '<img onerror="this.onerror=null; this.src=\'placeholder.png\'" style ="width: 100%;height: 93%" src="user_files/images/' . $current_card['front_image_name'] . '" alt="alternative">';
                         echo '</div>';
                         echo '<div class="bottom-text">' . $current_card['front_text'] . '</div>';
 
-                        echo "<a  class=\"open-card-btn\"
+                        echo "<button  style='bottom:70px;' class=\"btn-primary open-card-btn  \"
                         onclick=\"open_card_modal(
                             event,
                             " . $current_card['id'] . ",
@@ -294,7 +327,20 @@
                             'user_files/audios/" . $current_card['back_audio_name'] . "',
                         )\">
                             باز کردن کارت
-                        </a>";
+                        </button> &nbsp";
+                        echo "<button  style='bottom:35px;' class=\"open-card-btn btn-secondary\"
+                        onclick=\"editCardById(
+                            " . $current_card['id'] . "
+                        )\">
+                            ویرایش کارت
+                        </button>";
+                        echo "<button  class=\"open-card-btn btn-danger\"
+                        onclick=\"delCard(
+                            " . $current_card['id'] . "
+                        )\">
+                            حذف کارت
+                        </button>";
+
 
                         echo '</div>';
                     }

@@ -1,4 +1,3 @@
-var card_modal_name = '#card-view';
 function addRowHandlers() {
 
     var table = document.getElementById("boxes-table");
@@ -8,8 +7,8 @@ function addRowHandlers() {
         var cells = currentRow.getElementsByTagName("td");
         for (j = 0; j < cells.length; j++) {
             currentCell = cells[j]
-            var createClickHandler = function (row) {
-                return function () {
+            var createClickHandler = function(row) {
+                return function() {
                     var headerCell = row.getElementsByTagName("th")[0];
                     var box_id = headerCell.innerHTML;
                     window.location.href = "./BoxView.php?box_id=" + box_id
@@ -26,12 +25,14 @@ function addRowHandlers() {
 
     }
 }
+
+
+
 function submitForm() {
     console.log("hello con");
     document.fbox.submit();
 
 }
-
 
 
 addRowHandlers();

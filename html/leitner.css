@@ -3,10 +3,6 @@ html {
     text-align: center;
 }
 
-
-
-
-
 .container-rsp {
     width: 80%;
     margin: auto;
@@ -24,8 +20,6 @@ html {
     }
 }
 
-
-
 .leitner-header {
     font-size: 40px;
 }
@@ -39,13 +33,11 @@ html {
     .leitner-header {
         font-size: 30px;
     }
-
     .little-text {
         font-size: 16px;
         color: #666;
     }
 }
-
 
 hr {
     border: 0.5px solid #999;
@@ -78,7 +70,6 @@ hr {
     width: 50%;
 }
 
-
 .modal-wrapper {
     display: none;
     /* display: flex; */
@@ -103,7 +94,6 @@ hr {
     min-height: 400px;
     z-index: 200;
     padding: 30px !important;
-
 }
 
 @media only screen and (max-width: 1200px) {
@@ -200,7 +190,6 @@ hr {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgb(182, 5, 182);
     position: absolute;
     bottom: 0;
     height: 30px;
@@ -209,9 +198,7 @@ hr {
     transform: 1s;
 }
 
-.open-card-btn:hover {
-    background: rgb(129, 10, 144);
-}
+.open-card-btn:hover {}
 
 .card img {
     width: 100%;
@@ -241,14 +228,10 @@ audio {
 
 .section-header h4 {
     float: right;
-
-
 }
 
 .section-header button {
     float: left;
-
-
 }
 
 .flip-card {
@@ -260,7 +243,9 @@ audio {
     perspective: 1000px;
 }
 
+
 /* This container is needed to position the front and back side */
+
 .flip-card-inner {
     position: relative;
     width: 100%;
@@ -268,16 +253,18 @@ audio {
     text-align: center;
     transition: transform 0.8s;
     transform-style: preserve-3d;
-  }
-
+}
 
 
 /* Do an horizontal flip when you move the mouse over the flip box container */
+
 .flipp {
     transform: rotateY(180deg);
 }
 
+
 /* Position the front and back side */
+
 .flip-card-front,
 .flip-card-back {
     position: absolute;
@@ -288,12 +275,15 @@ audio {
 
 
 /* Style the front side (fallback if image is missing) */
+
 .flip-card-front {
     background-color: #bbb;
     color: black;
 }
 
+
 /* Style the back side */
+
 .flip-card-back {
     background-color: dodgerblue;
     color: white;
