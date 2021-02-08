@@ -21,7 +21,7 @@ body {
 }
 
 </style>
-	<title>Controls</title>
+	<title>Installer</title>
 	<HTA:APPLICATION
         APPLICATIONNAME = "Controls"
 		ICON = "599CD.ico"
@@ -77,16 +77,30 @@ Set fso = CreateObject("Scripting.FileSystemObject")
 If NOT fso.FolderExists(ExtractTo) Then
    fso.CreateFolder(ExtractTo)
 End If
+If fso.FolderExists(ExtractTo&"\LeitnerBox-master") Then
+    FS.DeleteFolder(ExtractTo&"\LeitnerBox-master")
+  End If
+ 
 set objShell = CreateObject("Shell.Application")
 set FilesInZip=objShell.NameSpace(ZipFile).items
 objShell.NameSpace(ExtractTo).CopyHere(FilesInZip)
+
+
+If fso.FolderExists(ExtractTo&"\LeitnerBox") Then
+    FS.DeleteFolder(ExtractTo&"\LeitnerBox")
+  End If
+If fso.FileExists(ExtractTo&"\www\sadaf\BoxView.php") Then
+    FS.DeleteFile(ExtractTo&"\www\sadaf\BoxView.php")
+End If
+If fso.FileExists(ExtractTo&"\www\sadaf\LeitnerBox.php") Then
+    FS.DeleteFile(ExtractTo&"\www\sadaf\LeitnerBox.php")
+End If
+  
+fso.MoveFolder ExtractTo&"\LeitnerBox-master", ExtractTo&"\LeitnerBox"
+fso.MoveFile ExtractTo&"\LeitnerBox\BoxView.php", ExtractTo&"\www\sadaf\BoxView.php"
+fso.MoveFile ExtractTo&"\LeitnerBox\LeitnerBox.php", ExtractTo&"\www\sadaf\LeitnerBox.php"
 Set fso = Nothing
 Set objShell = Nothing
-Set FS = CreateObject("Scripting.FileSystemObject")
-FS.MoveFolder ExtractTo&"\LeitnerBox-master", ExtractTo&"\LeitnerBox"
-FS.MoveFile ExtractTo&"\LeitnerBox\BoxView.php", ExtractTo&"\www\sadaf\BoxView.php"
-FS.MoveFile ExtractTo&"\LeitnerBox\LeitnerBox.php", ExtractTo&"\www\sadaf\LeitnerBox.php"
-
   End if
 End If
 End Function
