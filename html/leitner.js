@@ -32,7 +32,7 @@ var editCardById = (id) => {
     el.innerHTML = `
     <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
     <h3>ویرایش کارت</h3>
-    <form action='../sadaf/sadaf/BoxView.php?box_id=${$box_id}' method="POST" enctype="multipart/form-data">
+    <form action='../www/sadaf/BoxView.php?box_id=${$box_id}' method="POST" enctype="multipart/form-data">
         <input type="hidden" name="edit_card" value="${id}">
 
         <input class="text-inp form-control" type="text" name="front_text" id="front_text" placeholder="متن جلوی کارت">

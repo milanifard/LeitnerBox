@@ -37,7 +37,7 @@ $check = move_uploaded_file($_FILES['import']['tmp_name'], "./export.zip");
 
 $codeError = $_FILES['import']['error'];
 if ($codeError == 1) {
-    echo "<script>alert('خطا: حجم فایل انتخاب شده بیش از حدمجاز است');window.location.href = '../../sadaf/sadaf/LeitnerBox.php';</script>";
+    echo "<script>alert('خطا: حجم فایل انتخاب شده بیش از حدمجاز است');window.location.href = '../../www/sadaf/LeitnerBox.php';</script>";
 } else if ($codeError == 0) {
     $path = "export.zip";
     mkdir("export");
@@ -96,4 +96,4 @@ if ($codeError == 1) {
 
     }
 }
-header("Location: ../../sadaf/sadaf/LeitnerBox.php");
+header("Location: ../../www/sadaf/LeitnerBox.php");
