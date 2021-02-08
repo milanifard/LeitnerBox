@@ -191,7 +191,7 @@ var flipp = (back_audio, back_image, back_text, card_id) => {
         `</p>
         <form action="` + window.location.href + `" method="post" id="answer_card" ><input type="hidden" name="answer_card" value="true" /><input type="hidden" name="card_id" value="`+card_id+`" /><button type="submit" form="answer_card"  class="btn btn-primary">درست حدس زدم</button></form>
 
-        <form action="` + window.location.href + `" method="post" id="answer_card" ><input type="hidden" name="answer_card" value="false" /><input type="hidden" name="card_id" value="`+card_id+`" /><button type="submit" form="answer_card"  class="btn btn-secondary">اشتباه گفتم</button></form>
+        <form action="` + window.location.href + `" method="post" id="answer_cardf" ><input type="hidden" name="answer_card" value="false" /><input type="hidden" name="card_id" value="`+card_id+`" /><button type="submit" form="answer_cardf"  class="btn btn-secondary">اشتباه گفتم</button></form>
         </div>`;
 
 };
