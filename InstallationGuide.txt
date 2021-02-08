@@ -1,5 +1,6 @@
 1- First install sadaf framework (github.com/milanifard/sadaf)
-2- copy this module to same folder as sadaf www
+2- copy this module  (LeitberBox) to same folder as sadaf www or git clone https://github.com/milanifard/LeitnerBox
+in the same folder as sadaf www
 3- Rename sadaf's www dir to sadaf
 4- Import tables.sql by running script in your mysql
 5- Copy BoxView.php and  LeitnerBox.php to sadaf/sadaf/ folder (the same folder as main.php)
