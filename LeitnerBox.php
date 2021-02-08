@@ -25,9 +25,9 @@ ini_set('upload_max_filesize', '64M');
 ini_set('post_max_size', '64M');
 ini_set("file_uploads", "On");
 
-include_once 'database.php';
-include_once 'box.php';
-include_once 'section.php';
+include_once '../../LeitnerBox/config/database.php';
+include_once '../../LeitnerBox/model/box.php';
+include_once '../../LeitnerBox/model/section.php';
 ?>
 
 <body>
