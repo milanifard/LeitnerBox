@@ -6,4 +6,4 @@ in the same folder as sadaf www
 5- Edit sadaf's htaccess and add model and config directories like this according to your server folder: ;C:\wamp64\www\LeitnerBox\config;C:\wamp64\www\LeitnerBox\model
 6-  Open /LeitnerBox.php inside sadaf directory containing main.php and enjoy
 test
-
+test
