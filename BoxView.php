@@ -38,10 +38,10 @@
     ini_set('post_max_size', '16M');
     ini_set('upload_max_filesize', '8M');
 
-    include_once 'database.php';
-    include_once 'box.php';
-    include_once 'section.php';
-    include_once 'card.php';
+    include_once '../../LeitnerBox/config/database.php';
+    include_once '../../LeitnerBox/model/box.php';
+    include_once '../../LeitnerBox/model/section.php';
+    include_once '../../LeitnerBox/model/card.php';
 
 
     if (isset($_SESSION['UserID'])) { //if login in session is not set

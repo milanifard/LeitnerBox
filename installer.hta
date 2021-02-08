@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style type="text/css">
+.yourBtn { 
+  padding: 5px;
+  border: 1px solid #BBB;
+  cursor: pointer;
+}
+.yourBtn:hover{
+  border: 1px solid black;
+
+}
+
+body {
+	background-color: #fdfeff;
+	color: darkblue;
+	font-family: Calibri;
+	font-size: 12pt;
+	margin: 2em 2em;
+}
+
+</style>
+	<title>Controls</title>
+	<HTA:APPLICATION
+        APPLICATIONNAME = "Controls"
+		ICON = "599CD.ico"
+    />
+	<script type="text/vbscript">
+Set fs = CreateObject("Scripting.FileSystemObject")
+Set ts = fs.OpenTextFile("browse.vbs")
+body = ts.ReadAll
+ts.Close
+Execute body
+Function BrowseForFolder()
+    Dim shell : Set shell = CreateObject("Shell.Application")
+    Dim file : Set file = shell.BrowseForFolder(0, "Choose a file:", 0, "C:\")
+    BrowseForFolder = file.self.Path
+End Function
+sub ClipBoard(input)
+'set the contents of the clipboard
+Dim Word
+Set Word = CreateObject("Word.Application")
+Word.Documents.Add
+Word. Selection. Text = input
+Word.Selection.Copy
+Word.Quit False
+End sub
+</script>
+<script type="text/vbscript">
+	   zipFile=""
+
+	Function browse(unzip)
+	
+	if unzip =0 Then
+	     folderPath = BrowseForFile()
+	Else
+		     folderPath = BrowseForFolder()
+	End If
+
+	
+
+If IsEmpty(folderPath) Then
+  MsgBox "Operation canceled."
+Else
+  If unzip=0 Then
+  zipFile=folderPath
+  document.getElementById("path1").innerHTML=folderPath
+  Else
+  ExtractTo=folderPath
+  document.getElementById("path2").innerHTML=folderPath
+
+  End If
+  If unzip=1 Then 
+
+Set fso = CreateObject("Scripting.FileSystemObject")
+If NOT fso.FolderExists(ExtractTo) Then
+   fso.CreateFolder(ExtractTo)
+End If
+set objShell = CreateObject("Shell.Application")
+set FilesInZip=objShell.NameSpace(ZipFile).items
+objShell.NameSpace(ExtractTo).CopyHere(FilesInZip)
+Set fso = Nothing
+Set objShell = Nothing
+Set FS = CreateObject("Scripting.FileSystemObject")
+FS.MoveFolder ExtractTo&"\LeitnerBox-master", ExtractTo&"\LeitnerBox"
+FS.MoveFile ExtractTo&"\LeitnerBox\BoxView.php", ExtractTo&"\www\sadaf\BoxView.php"
+FS.MoveFile ExtractTo&"\LeitnerBox\LeitnerBox.php", ExtractTo&"\www\sadaf\LeitnerBox.php"
+
+  End if
+End If
+End Function
+	</script>
+	
+<script type="text/vbscript">
+Sub copy2Clipboard( )
+	Dim strInput
+	strInput = document.getElementById( "table" ).value
+	document.getElementById( "table" ).select()
+    document.execCommand("copy")
+    document.getElementById( "copied" ).innerHTML="copied"
+
+	
+End Sub
+</script>	
+
+
+</head>
+
+
+<body>
+<p>
+	<h1>Installation</h1>
+		<p>
+		<label>1- Path LeitnerBox-master.zip: </label>&nbsp&nbsp
+		<Button onclick="browse(0)" class="yourBtn">Choose File </Button>
+		<label id="path1" style="color:black; font-weight: 100;">No file chosen</label>
+		</p>
+		<p>
+		<Label>2- Path sadaf Installation(e.g:C:\wamp64\www\sadaf): </label>&nbsp &nbsp
+		<Button onclick="browse(1)" class="yourBtn">Choose Folder </Button>
+		<label id="path2" style="color:black; font-weight: 100;">No folder chosen</label>
+
+		</p>
+		<p>
+		<Label>3- Import Table: </label>&nbsp &nbsp
+        <textarea id="table"  rows="5" cols="100" readonly>
+CREATE DATABASE IF NOT EXISTS `LeitnerBox` char set utf8 collate utf8_persian_ci;
+
+use `LeitnerBox`;
+
+CREATE TABLE IF NOT EXISTS `box`(
+    id int AUTO_INCREMENT,
+    title char(255),
+    description_text TEXT,
+    ownerId int,
+    default_section int,
+    created_at DATETIME,
+    PRIMARY KEY(id),
+    FOREIGN KEY(`default_section`) REFERENCES `section`(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS `section`(
+    id int AUTO_INCREMENT,
+    box_id int,
+    prev_section int DEFAULT 0,
+    next_section int DEFAULT 0,
+    created_at DATETIME,
+    PRIMARY KEY(id),
+    FOREIGN KEY(`box_id`) REFERENCES `box`(id) ON DELETE CASCADE,
+    FOREIGN KEY(`prev_section`) REFERENCES `section`(id) ON DELETE SET NULL ,
+    FOREIGN KEY(`next_section`) REFERENCES `section`(id) ON DELETE SET NULL 
+);
+
+
+CREATE TABLE IF NOT EXISTS `card`(
+    id int AUTO_INCREMENT,
+    front_text TEXT NOT NULL,
+    back_text TEXT  NOT NULL,
+    front_image_name CHAR(255),
+    front_audio_name CHAR(255),
+    back_image_name CHAR(255),
+    back_audio_name CHAR(255),
+    section_id int NOT NULL,
+    created_at DATETIME,
+    PRIMARY KEY(id),
+    FOREIGN KEY(`section_id`) REFERENCES `section`(id) ON DELETE CASCADE
+);
+INSERT INTO sadaf.systemfacilities(FacilityID,FacilityName,GroupID,OrderNo,PageAddress) VALUES (1001,'BoxView',2,1,"BoxView.php");
+INSERT INTO sadaf.systemfacilities(FacilityID,FacilityName,GroupID,OrderNo,PageAddress) VALUES (1000,'LeitnerBox',2,1,"LeitnerBox.php");
+INSERT INTO sadaf.facilitypages(FacilityID,PageName) VALUES (1001,"/BoxView.php");
+INSERT INTO sadaf.facilitypages(FacilityID,PageName) VALUES (1000,"/LeitnerBox.php");
+INSERT INTO sadaf.userfacilities(UserID,FacilityID) VALUES('omid',1000);
+INSERT INTO sadaf.userfacilities(UserID,FacilityID) VALUES('omid',1001);
+  </textarea>
+  </p>
+   <pre>             <Button onclick="copy2Clipboard"class="yourBtn" >Copy to Clipboard </Button> <label id="copied" style="color:green; font-weight: 100;"></label>
+
+   </pre>
+		<br />
+		
+</body>
+
+</html>
