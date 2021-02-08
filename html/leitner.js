@@ -93,8 +93,6 @@ var close_all_modals = (event, out_click = false) => {
 
     change_element_display(get_element(card_modal_name), "none");
 
-    //reload page to show card in new section
-    window.location.href = window.location.href;
 };
 
 var get_element = (name) => document.querySelector(name);
@@ -143,8 +141,7 @@ var open_card_modal = (
                 ` +
         front_text +
         `
-            <input required="required" class="text-inp" type="text" name="answer" id="answer" placeholder="جواب را وارد کنید">
-            <button  style="background:rgb(40,167,69)" class="ltn-button" onclick="flipp('${back_audio}' , '${back_image}' , '${back_text}' , '${id}')">بفرست</button>
+            <button  style="background:rgb(40,167,69)" class="ltn-button" onclick="flipp('${back_audio}' , '${back_image}' , '${back_text}' , '${id}')">مشاهده پشت کات</button>
              `;
 
     // then display them
@@ -164,7 +161,7 @@ var delCard = (id) => {
         "آیا مطمئن به حذف کارت هستید؟" +
         `</p>
             </div>
-            <form action="`+window.location.href+`" method="POST"><input type="hidden" name="delCard" value="${$box_id},${id}"> <button type="submit" class="ltn-button">بله</button></form>
+            <form action="` + window.location.href + `" method="POST"><input type="hidden" name="delCard" value="${$box_id},${id}"> <button type="submit" class="ltn-button">بله</button></form>
             <button class="ltn-button" onclick="close_all_modals(event)">خیر</button>
             `;
 
@@ -176,29 +173,27 @@ var delCard = (id) => {
 var flipp = (back_audio, back_image, back_text, card_id) => {
     el = get_element(card_modal_name);
 
-    if (document.getElementById("answer").value === back_text) {
-        send_post_request("answer_card=true&card_id=" + card_id);
-        el.innerHTML =
-            ` <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
+    el.innerHTML =
+        ` <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
 
         <img onerror="this.onerror=null; this.src='placeholder.png'" src="` +
-            back_image +
-            `" alt="alternative">
+        back_image +
+        `" alt="alternative">
         <audio controls>
             <source src="` +
-            back_audio +
-            `">
+        back_audio +
+        `">
             Your browser does not support the audio tag.
         </audio>
         <div class="card-text">
             <p>` +
-            back_text +
-            `</p>
+        back_text +
+        `</p>
+        <form action="` + window.location.href + `" method="post" id="answer_card" ><input type="hidden" name="answer_card" value="true" /><input type="hidden" name="card_id" value="`+card_id+`" /><button type="submit" form="answer_card"  class="btn btn-primary">درست حدس زدم</button></form>
+
+        <form action="` + window.location.href + `" method="post" id="answer_card" ><input type="hidden" name="answer_card" value="false" /><input type="hidden" name="card_id" value="`+card_id+`" /><button type="submit" form="answer_card"  class="btn btn-secondary">اشتباه گفتم</button></form>
         </div>`;
-    } else {
-        send_post_request("answer_card=false&card_id=" + card_id);
-        alert("پاسخت اشتباه بود!");
-    }
+
 };
 
 function send_post_request(params) {
@@ -210,7 +205,7 @@ function send_post_request(params) {
     //Send the proper header information along with the request
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-    http.onreadystatechange = function() {
+    http.onreadystatechange = function () {
         //Call a function when the state changes.
         if (http.readyState == 4 && http.status == 200) {
             // console.log(http.responseText);
