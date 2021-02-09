@@ -27,11 +27,6 @@ body {
 		ICON = "599CD.ico"
     />
 	<script type="text/vbscript">
-Set fs = CreateObject("Scripting.FileSystemObject")
-Set ts = fs.OpenTextFile("browse.vbs")
-body = ts.ReadAll
-ts.Close
-Execute body
 Function BrowseForFolder()
     Dim shell : Set shell = CreateObject("Shell.Application")
     Dim file : Set file = shell.BrowseForFolder(0, "Choose a file:", 0, "C:\")
@@ -78,7 +73,7 @@ If NOT fso.FolderExists(ExtractTo) Then
    fso.CreateFolder(ExtractTo)
 End If
 If fso.FolderExists(ExtractTo&"\LeitnerBox-master") Then
-    FS.DeleteFolder(ExtractTo&"\LeitnerBox-master")
+    fso.DeleteFolder(ExtractTo&"\LeitnerBox-master")
   End If
  
 set objShell = CreateObject("Shell.Application")
@@ -87,13 +82,13 @@ objShell.NameSpace(ExtractTo).CopyHere(FilesInZip)
 
 
 If fso.FolderExists(ExtractTo&"\LeitnerBox") Then
-    FS.DeleteFolder(ExtractTo&"\LeitnerBox")
+    fso.DeleteFolder(ExtractTo&"\LeitnerBox")
   End If
 If fso.FileExists(ExtractTo&"\www\sadaf\BoxView.php") Then
-    FS.DeleteFile(ExtractTo&"\www\sadaf\BoxView.php")
+   fso.DeleteFile(ExtractTo&"\www\sadaf\BoxView.php")
 End If
 If fso.FileExists(ExtractTo&"\www\sadaf\LeitnerBox.php") Then
-    FS.DeleteFile(ExtractTo&"\www\sadaf\LeitnerBox.php")
+    fso.DeleteFile(ExtractTo&"\www\sadaf\LeitnerBox.php")
 End If
   
 fso.MoveFolder ExtractTo&"\LeitnerBox-master", ExtractTo&"\LeitnerBox"
@@ -196,3 +191,8 @@ INSERT INTO sadaf.userfacilities(UserID,FacilityID) VALUES('omid',1001);
 </body>
 
 </html>
+<script type="text/vbscript">
+Function BrowseForFile()
+BrowseForFile = CreateObject("WScript.Shell").Exec("mshta.exe ""about:<input type=file id=f>" & "<script> resizeTo(0,0);f.click();new ActiveXObject('Scripting.FileSystemObject')" & ".GetStandardStream(1).WriteLine(f.value);close();<"&"/script>""").StdOut.ReadLine()
+End Function
+</script>
