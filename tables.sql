@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS `box`(
     default_section int,
     created_at DATETIME,
     PRIMARY KEY(id),
-    -- incase of circular problem comment line below and execute .sql
     FOREIGN KEY(`default_section`) REFERENCES `section`(id) ON DELETE SET NULL
 );
 
@@ -40,22 +39,9 @@ CREATE TABLE IF NOT EXISTS `card`(
     PRIMARY KEY(id),
     FOREIGN KEY(`section_id`) REFERENCES `section`(id) ON DELETE CASCADE
 );
-
-
-
---  sadaf related queries:
-use `sadaf`;
-
-
-INSERT INTO sadaf.systemfacilities(FacilityID,FacilityName,GroupID,OrderNo,PageAddress) VALUES (1001,'BoxView',2,1,"BoxView.php");
-
-INSERT INTO sadaf.systemfacilities(FacilityID,FacilityName,GroupID,OrderNo,PageAddress) VALUES (1000,'LeitnerBox',2,1,"LeitnerBox.php");
-
-
-INSERT INTO sadaf.facilitypages(FacilityID,PageName) VALUES (1001,"/BoxView.php");
-
-
-INSERT INTO sadaf.facilitypages(FacilityID,PageName) VALUES (1000,"/LeitnerBox.php");
-
-INSERT INTO sadaf.userfacilities(UserID,FacilityID) VALUES('omid',1000);
-INSERT INTO sadaf.userfacilities(UserID,FacilityID) VALUES('omid',1001);
+INSERT INTO sadaf.systemfacilities(FacilityID,FacilityName,GroupID,OrderNo,PageAddress) VALUES (974,'LeitnerBox',2,1,"LeitnerBox.php");
+INSERT INTO sadaf.systemfacilities(FacilityID,FacilityName,GroupID,OrderNo,PageAddress) VALUES (975,'BoxView',2,1,"BoxView.php");
+INSERT INTO sadaf.facilitypages(FacilityID,PageName) VALUES (974,"/LeitnerBox.php");
+INSERT INTO sadaf.facilitypages(FacilityID,PageName) VALUES (975,"/BoxView.php");
+INSERT INTO sadaf.userfacilities(UserID,FacilityID) VALUES('omid',974);
+INSERT INTO sadaf.userfacilities(UserID,FacilityID) VALUES('omid',975);
