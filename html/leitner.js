@@ -141,7 +141,7 @@ var open_card_modal = (
                 ` +
         front_text +
         `
-            <button  style="background:rgb(40,167,69)" class="ltn-button" onclick="flipp('${back_audio}' , '${back_image}' , '${back_text}' , '${id}')">مشاهده پشت کات</button>
+            <button  style="background:rgb(40,167,69)" class="ltn-button" onclick="flipp('${back_audio}' , '${back_image}' , '${back_text}' , '${id}')">مشاهده پشت کارت</button>
              `;
 
     // then display them
@@ -172,6 +172,7 @@ var delCard = (id) => {
 };
 var flipp = (back_audio, back_image, back_text, card_id) => {
     el = get_element(card_modal_name);
+    $box_id = document.getElementsByClassName("leitner-header")[0].id;
 
     el.innerHTML =
         ` <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
@@ -189,9 +190,9 @@ var flipp = (back_audio, back_image, back_text, card_id) => {
             <p>` +
         back_text +
         `</p>
-        <form action="` + window.location.href + `" method="post" id="answer_card" ><input type="hidden" name="answer_card" value="true" /><input type="hidden" name="card_id" value="`+card_id+`" /><button type="submit" form="answer_card"  class="btn btn-primary">درست حدس زدم</button></form>
-
-        <form action="` + window.location.href + `" method="post" id="answer_cardf" ><input type="hidden" name="answer_card" value="false" /><input type="hidden" name="card_id" value="`+card_id+`" /><button type="submit" form="answer_cardf"  class="btn btn-secondary">اشتباه گفتم</button></form>
+        <form action="` + window.location.href + `" method="post" id="answer_card" ><input type="hidden" name="box_id" value="${box_id}" /><input type="hidden" name="answer_card" value="true" /><input type="hidden" name="card_id" value="` + card_id + `" /><button type="submit" form="answer_card"  class="btn btn-success">درست حدس زدم</button></form>
+        <br>
+        <form action="` + window.location.href + `" method="post" id="answer_cardf" ><input type="hidden" name="box_id" value="${box_id}" /><input type="hidden" name="answer_card" value="false" /><input type="hidden" name="card_id" value="` + card_id + `" /><button type="submit" form="answer_cardf"  class="btn btn-danger">اشتباه گفتم</button></form>
         </div>`;
 
 };
@@ -205,7 +206,7 @@ function send_post_request(params) {
     //Send the proper header information along with the request
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-    http.onreadystatechange = function () {
+    http.onreadystatechange = function() {
         //Call a function when the state changes.
         if (http.readyState == 4 && http.status == 200) {
             // console.log(http.responseText);
@@ -213,4 +214,6 @@ function send_post_request(params) {
         }
     };
     http.send(params);
+}
+http.send(params);
 }
