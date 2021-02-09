@@ -184,6 +184,7 @@
                             $card->update();
                         }
                     }
+                    header("Location: ./BoxView.php?box_id=".$_REQUEST["box_id"]);
                 } else if (isset($_REQUEST['delCard'])) {
                     $id = $_REQUEST['delCard'];
                     echo "<script>console.log('$id')</script>";
@@ -192,8 +193,6 @@
                     $card->id = $id[1];
                     $card->deleteByID();
                     header("Location: ".$_SERVER['REQUEST_URI']);
-
-
                 } 
 
                 // echo "<script>window.location.href = window.location.href;</script>";

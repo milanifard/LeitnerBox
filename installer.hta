@@ -26,21 +26,12 @@ body {
         APPLICATIONNAME = "Controls"
 		ICON = "599CD.ico"
     />
-	<script type="text/vbscript">
+<script type="text/vbscript">
 Function BrowseForFolder()
     Dim shell : Set shell = CreateObject("Shell.Application")
     Dim file : Set file = shell.BrowseForFolder(0, "Choose a file:", 0, "C:\")
     BrowseForFolder = file.self.Path
 End Function
-sub ClipBoard(input)
-'set the contents of the clipboard
-Dim Word
-Set Word = CreateObject("Word.Application")
-Word.Documents.Add
-Word. Selection. Text = input
-Word.Selection.Copy
-Word.Quit False
-End sub
 </script>
 <script type="text/vbscript">
 	   zipFile=""

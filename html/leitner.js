@@ -90,6 +90,7 @@ var close_all_modals = (event, out_click = false) => {
   if (out_click) if (get_element(wrapper_modal_name) !== event.target) return;
 
   change_element_display(get_element(card_modal_name), "none");
+  window.location.href = window.location.href;
 };
 
 var get_element = (name) => document.querySelector(name);
@@ -190,13 +191,13 @@ var flipp = (back_audio, back_image, back_text, card_id) => {
     `</p>
         <form action="` +
     window.location.href +
-    `" method="post" id="answer_card" ><input type="hidden" name="box_id" value="${box_id}" /><input type="hidden" name="answer_card" value="true" /><input type="hidden" name="card_id" value="` +
+    `" method="post" id="answer_card" ><input type="hidden" name="box_id" value="${$box_id}"><input type="hidden" name="answer_card" value="true" /><input type="hidden" name="card_id" value="` +
     card_id +
     `" /><button type="submit" form="answer_card"  class="btn btn-success">درست حدس زدم</button></form>
         <br>
         <form action="` +
     window.location.href +
-    `" method="post" id="answer_cardf" ><input type="hidden" name="box_id" value="${box_id}" /><input type="hidden" name="answer_card" value="false" /><input type="hidden" name="card_id" value="` +
+    `" method="post" id="answer_cardf" ><input type="hidden" name="box_id" value="${$box_id}"><input type="hidden" name="answer_card" value="false" /><input type="hidden" name="card_id" value="` +
     card_id +
     `" /><button type="submit" form="answer_cardf"  class="btn btn-danger">اشتباه گفتم</button></form>
         </div>`;
