@@ -297,6 +297,7 @@
                     echo '<div class="leitner-section">';
                     echo '<div class="section-header">';
                     echo '<h4 >بخش شماره ' . $k . '</h4>';
+                    echo "<form action=\"" . $_SERVER['REQUEST_URI'] . "\" method=\"post\" id=\"form" . $current_section['id'] . "\"><input type=\"hidden\" name=\"remove_section_id\" value=\"" . $current_section['id'] . "\" /><button type=\"submit\" form=\"form" . $current_section['id'] . "\" onlick=\"removeBox()\"  class=\"btn btn-danger\">حذف</button></form>";
                     echo '</div>';
                     echo '<hr>';
                     echo '<div class="card-wrapper">';

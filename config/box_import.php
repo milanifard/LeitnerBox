@@ -95,5 +95,5 @@ if ($codeError == 1) {
         // $query = "";
 
     }
+    header("Location: ../../www/sadaf/LeitnerBox.php");
 }
-header("Location: ../../www/sadaf/LeitnerBox.php");
