@@ -110,20 +110,23 @@ End Sub
 
 <body>
 <p>
-	<h1>Installation</h1>
+	<h1>Installation Guide</h1>
 		<p>
-		<label>1- Path LeitnerBox-master.zip: </label>&nbsp&nbsp
+		<label>1- Download the LeitnerBox zip file: </label>
+		<a href="https://github.com/milanifard/LeitnerBox/archive/master.zip" download>      Direct Download Link</a>
+		<p>
+		<label>2- Path LeitnerBox-master.zip: </label>&nbsp&nbsp
 		<Button onclick="browse(0)" class="yourBtn">Choose File </Button>
 		<label id="path1" style="color:black; font-weight: 100;">No file chosen</label>
 		</p>
 		<p>
-		<Label>2- Path sadaf Installation(e.g:C:\wamp64\www\sadaf): </label>&nbsp &nbsp
+		<Label>3- Path sadaf Installation(e.g:C:\wamp64\www\sadaf): </label>&nbsp &nbsp
 		<Button onclick="browse(1)" class="yourBtn">Choose Folder </Button>
 		<label id="path2" style="color:black; font-weight: 100;">No folder chosen</label>
 
 		</p>
 		<p>
-		<Label>3- Import Table: </label>&nbsp &nbsp
+		<Label>4- Import Table: </label>&nbsp &nbsp
         <textarea id="table"  rows="5" cols="100" readonly>
 CREATE DATABASE IF NOT EXISTS `LeitnerBox` char set utf8 collate utf8_persian_ci;
 

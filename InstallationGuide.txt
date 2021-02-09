@@ -1,3 +1,7 @@
+Method 1
+1-run installer.hta
+-------------------------------------
+Method 2
 1- First install sadaf framework (github.com/milanifard/sadaf)
 2- copy this module  (LeitberBox) to same folder as sadaf www or git clone https://github.com/milanifard/LeitnerBox
 in the same folder as sadaf www
