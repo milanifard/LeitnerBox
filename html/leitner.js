@@ -2,10 +2,10 @@ var wrapper_modal_name = ".modal-wrapper";
 var create_card_modal_name = "#create-card-modal";
 var card_modal_name = "#card-view";
 var editBoxById = (id) => {
-    // first get the elements and replace with inputs
-    el = get_element(card_modal_name);
-    $box_id = 1;
-    el.innerHTML = `
+  // first get the elements and replace with inputs
+  el = get_element(card_modal_name);
+  $box_id = 1;
+  el.innerHTML = `
         <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
 
         <form action="./LeitnerBox.php" method="post">
@@ -21,15 +21,15 @@ var editBoxById = (id) => {
         <button type="submit" class="ltn-button">ویرایش</button>
     </form>
     `;
-    // then display them
+  // then display them
 
-    change_element_display(get_element(card_modal_name), "block");
+  change_element_display(get_element(card_modal_name), "block");
 };
 var editCardById = (id) => {
-    // first get the elements and replace with inputs
-    el = get_element(card_modal_name);
-    $box_id = document.getElementsByClassName("leitner-header")[0].id;;
-    el.innerHTML = `
+  // first get the elements and replace with inputs
+  el = get_element(card_modal_name);
+  $box_id = document.getElementsByClassName("leitner-header")[0].id;
+  el.innerHTML = `
     <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
     <h3>ویرایش کارت</h3>
     <form action='../www/sadaf/BoxView.php?box_id=${$box_id}' method="POST" enctype="multipart/form-data">
@@ -56,18 +56,17 @@ var editCardById = (id) => {
         <button class="ltn-button">ویرایش</button>
     </form>
    `;
-    // then display them
-    change_element_display(get_element(wrapper_modal_name), "flex");
-    change_element_display(get_element(card_modal_name), "block");
-}
+  // then display them
+  change_element_display(get_element(wrapper_modal_name), "flex");
+  change_element_display(get_element(card_modal_name), "block");
+};
 var Import = () => {
-    event.preventDefault();
+  event.preventDefault();
 
-    // first get the elements and replace with inputs
-    el = get_element(card_modal_name);
+  // first get the elements and replace with inputs
+  el = get_element(card_modal_name);
 
-    el.innerHTML =
-        `
+  el.innerHTML = `
         <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
     <h3>
     Import
@@ -83,137 +82,141 @@ var Import = () => {
          
             `;
 
-    // then display them
-    change_element_display(get_element(card_modal_name), "block");
+  // then display them
+  change_element_display(get_element(card_modal_name), "block");
 };
 var close_all_modals = (event, out_click = false) => {
-    event.preventDefault();
-    if (out_click)
-        if (get_element(wrapper_modal_name) !== event.target) return;
+  event.preventDefault();
+  if (out_click) if (get_element(wrapper_modal_name) !== event.target) return;
 
-    change_element_display(get_element(card_modal_name), "none");
-
+  change_element_display(get_element(card_modal_name), "none");
 };
 
 var get_element = (name) => document.querySelector(name);
 var change_element_display = (element, status) =>
-    (element.style.display = status);
+  (element.style.display = status);
 
 var open_create_card_modal = (event) => {
-    event.preventDefault();
+  event.preventDefault();
 
-    change_element_display(get_element(wrapper_modal_name), "flex");
-    change_element_display(get_element(create_card_modal_name), "block");
-    change_element_display(get_element(card_modal_name), "none");
+  change_element_display(get_element(wrapper_modal_name), "flex");
+  change_element_display(get_element(create_card_modal_name), "block");
+  change_element_display(get_element(card_modal_name), "none");
 };
 
 var open_card_modal = (
-    event,
-    id,
-    front_text,
-    front_image,
-    front_audio,
-    back_text,
-    back_image,
-    back_audio
+  event,
+  id,
+  front_text,
+  front_image,
+  front_audio,
+  back_text,
+  back_image,
+  back_audio
 ) => {
-    event.preventDefault();
-    console.log(front_text);
+  event.preventDefault();
+  console.log(front_text);
 
-    // first get the elements and replace with inputs
-    el = get_element(card_modal_name);
+  // first get the elements and replace with inputs
+  el = get_element(card_modal_name);
 
-    el.innerHTML =
-        `
+  el.innerHTML =
+    `
         <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
 
             
 
             <img onerror="this.onerror=null; this.src='placeholder.png'" src="` +
-        front_image +
-        `" alt="alternative" style="max-height:200px;"><br><br>
+    front_image +
+    `" alt="alternative" style="max-height:200px;"><br><br>
             <audio controls>
                 <source src="` +
-        front_audio +
-        `">
+    front_audio +
+    `">
                 Your browser does not support the audio tag.
             </audio><br><br>
                 ` +
-        front_text +
-        `
+    front_text +
+    `
             <button  style="background:rgb(40,167,69)" class="ltn-button" onclick="flipp('${back_audio}' , '${back_image}' , '${back_text}' , '${id}')">مشاهده پشت کارت</button>
              `;
 
-    // then display them
-    change_element_display(get_element(wrapper_modal_name), "flex");
-    change_element_display(get_element(card_modal_name), "block");
+  // then display them
+  change_element_display(get_element(wrapper_modal_name), "flex");
+  change_element_display(get_element(card_modal_name), "block");
 };
 var delCard = (id) => {
-    // first get the elements and replace with inputs
-    el = get_element(card_modal_name);
-    $box_id = document.getElementsByClassName("leitner-header")[0].id;
-    el.innerHTML =
-        `
+  // first get the elements and replace with inputs
+  el = get_element(card_modal_name);
+  $box_id = document.getElementsByClassName("leitner-header")[0].id;
+  el.innerHTML =
+    `
         <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
 
             <div class="card-text">
                 <p>` +
-        "آیا مطمئن به حذف کارت هستید؟" +
-        `</p>
+    "آیا مطمئن به حذف کارت هستید؟" +
+    `</p>
             </div>
-            <form action="` + window.location.href + `" method="POST"><input type="hidden" name="delCard" value="${$box_id},${id}"> <button type="submit" class="ltn-button">بله</button></form>
+            <form action="` +
+    window.location.href +
+    `" method="POST"><input type="hidden" name="delCard" value="${$box_id},${id}"> <button type="submit" class="ltn-button">بله</button></form>
             <button class="ltn-button" onclick="close_all_modals(event)">خیر</button>
             `;
 
-    // then display them
-    change_element_display(get_element(wrapper_modal_name), "flex");
-    change_element_display(get_element(card_modal_name), "block");
-
+  // then display them
+  change_element_display(get_element(wrapper_modal_name), "flex");
+  change_element_display(get_element(card_modal_name), "block");
 };
 var flipp = (back_audio, back_image, back_text, card_id) => {
-    el = get_element(card_modal_name);
-    $box_id = document.getElementsByClassName("leitner-header")[0].id;
+  el = get_element(card_modal_name);
+  $box_id = document.getElementsByClassName("leitner-header")[0].id;
 
-    el.innerHTML =
-        ` <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
+  el.innerHTML =
+    ` <div class="close-modal-btn" onclick="close_all_modals(event)"></div>
 
         <img onerror="this.onerror=null; this.src='placeholder.png'" src="` +
-        back_image +
-        `" alt="alternative">
+    back_image +
+    `" alt="alternative">
         <audio controls>
             <source src="` +
-        back_audio +
-        `">
+    back_audio +
+    `">
             Your browser does not support the audio tag.
         </audio>
         <div class="card-text">
             <p>` +
-        back_text +
-        `</p>
-        <form action="` + window.location.href + `" method="post" id="answer_card" ><input type="hidden" name="box_id" value="${box_id}" /><input type="hidden" name="answer_card" value="true" /><input type="hidden" name="card_id" value="` + card_id + `" /><button type="submit" form="answer_card"  class="btn btn-success">درست حدس زدم</button></form>
+    back_text +
+    `</p>
+        <form action="` +
+    window.location.href +
+    `" method="post" id="answer_card" ><input type="hidden" name="box_id" value="${box_id}" /><input type="hidden" name="answer_card" value="true" /><input type="hidden" name="card_id" value="` +
+    card_id +
+    `" /><button type="submit" form="answer_card"  class="btn btn-success">درست حدس زدم</button></form>
         <br>
-        <form action="` + window.location.href + `" method="post" id="answer_cardf" ><input type="hidden" name="box_id" value="${box_id}" /><input type="hidden" name="answer_card" value="false" /><input type="hidden" name="card_id" value="` + card_id + `" /><button type="submit" form="answer_cardf"  class="btn btn-danger">اشتباه گفتم</button></form>
+        <form action="` +
+    window.location.href +
+    `" method="post" id="answer_cardf" ><input type="hidden" name="box_id" value="${box_id}" /><input type="hidden" name="answer_card" value="false" /><input type="hidden" name="card_id" value="` +
+    card_id +
+    `" /><button type="submit" form="answer_cardf"  class="btn btn-danger">اشتباه گفتم</button></form>
         </div>`;
-
 };
 
 function send_post_request(params) {
-    console.log("request post sending");
-    var http = new XMLHttpRequest();
-    var url = window.location.href;
-    http.open("POST", url, true);
+  console.log("request post sending");
+  var http = new XMLHttpRequest();
+  var url = window.location.href;
+  http.open("POST", url, true);
 
-    //Send the proper header information along with the request
-    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  //Send the proper header information along with the request
+  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-    http.onreadystatechange = function() {
-        //Call a function when the state changes.
-        if (http.readyState == 4 && http.status == 200) {
-            // console.log(http.responseText);
-            console.log("request post done");
-        }
-    };
-    http.send(params);
-}
-http.send(params);
+  http.onreadystatechange = function () {
+    //Call a function when the state changes.
+    if (http.readyState == 4 && http.status == 200) {
+      // console.log(http.responseText);
+      console.log("request post done");
+    }
+  };
+  http.send(params);
 }
